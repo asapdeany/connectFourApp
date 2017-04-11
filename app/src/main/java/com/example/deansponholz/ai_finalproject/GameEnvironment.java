@@ -10,7 +10,7 @@ public class GameEnvironment {
 
 
     //game board with 6x7 open spaces
-    byte[][] gameGrid = new byte[6][7];
+    static byte[][] gameGrid = new byte[6][7];
     String gameBoard = new String();
 
     //constructor
@@ -54,6 +54,8 @@ public class GameEnvironment {
         }
     }
 
+
+    // TODO: 4/11/17 - update UI
     //display game-board to Console(for now)
     public void displayEnvironment(TextView tv){
         //System.out.println();
