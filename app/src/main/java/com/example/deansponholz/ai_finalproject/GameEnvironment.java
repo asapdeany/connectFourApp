@@ -57,6 +57,8 @@ public class GameEnvironment {
 
     // TODO: 4/11/17 - update UI
     //display game-board to Console(for now)
+
+
     public void displayEnvironment(TextView tv){
         //System.out.println();
         for (int i=0; i <=5; ++i){

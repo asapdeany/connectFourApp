@@ -43,26 +43,12 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView2"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/ai_background" />
+        app:srcCompat="@drawable/majors_room_scene" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radioGroup_gameplay">
-
-        <RadioButton
-            android:text="RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton7"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:text="RadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton6"
-            android:layout_weight="1" />
 
         <RadioButton
             android:text="RadioButton"
@@ -101,11 +87,31 @@
     </RadioGroup>
 
     <ImageView
+        android:layout_width="450dp"
+        android:id="@+id/imageView3"
+        android:background="@drawable/gameboard"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
-        android:background="@drawable/connect_four_board"
-        android:layout_marginTop="101dp"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/radioButton6"
+        android:layout_weight="1"
+        app:buttonTint="@android:color/black"
+        android:layout_below="@+id/radioGroup_gameplay"
+        android:layout_toStartOf="@+id/radioButton7"
+        android:layout_marginTop="70dp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton7"
+        android:layout_weight="1"
+        android:layout_marginStart="24dp"
+        app:buttonTint="@android:color/black"
+        android:layout_alignBaseline="@+id/radioButton6"
+        android:layout_alignBottom="@+id/radioButton6"
+        android:layout_alignStart="@+id/button2" />
 </RelativeLayout>

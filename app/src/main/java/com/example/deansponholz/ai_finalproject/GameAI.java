@@ -285,7 +285,7 @@ public class GameAI {
         return nextMoveSpot;
     }
 
-    /*
+
     public void playAgainstAIConsole(){
         int humanMove=-1;
         Scanner scan = new Scanner(System.in);
@@ -295,6 +295,7 @@ public class GameAI {
         if(answer.equalsIgnoreCase("yes")) letOpponentMove();
 
 
+        /*
         b.displayBoard();
         b.placeMove(3, 1);
         b.displayBoard();
@@ -315,8 +316,10 @@ public class GameAI {
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
         }
+        */
 
     }
-    */
+
+
 
 }
