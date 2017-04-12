@@ -54,6 +54,20 @@
             android:text="RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/radioButton7"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton6"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/radioButton5"
             android:layout_weight="1" />
 
@@ -93,25 +107,4 @@
         android:layout_height="400dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton6"
-        android:layout_weight="1"
-        app:buttonTint="@android:color/black"
-        android:layout_below="@+id/radioGroup_gameplay"
-        android:layout_toStartOf="@+id/radioButton7"
-        android:layout_marginTop="70dp" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton7"
-        android:layout_weight="1"
-        android:layout_marginStart="24dp"
-        app:buttonTint="@android:color/black"
-        android:layout_alignBaseline="@+id/radioButton6"
-        android:layout_alignBottom="@+id/radioButton6"
-        android:layout_alignStart="@+id/button2" />
 </RelativeLayout>
