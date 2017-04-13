@@ -19,14 +19,6 @@
         android:textColor="@android:color/background_light" />
 
 
-    <Button
-        android:text="Drop Piece"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/button2" />
-
     <ImageView
         android:layout_width="450dp"
         android:id="@+id/iv_gameboard"
@@ -100,4 +92,71 @@
             app:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
     </RadioGroup>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/drop_button"
+        android:id="@+id/button_dropbutton"
+        android:layout_above="@+id/radioGroup_gameplay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/instructions_button"
+        android:layout_marginTop="29dp"
+        android:id="@+id/button_instructions"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/button_play"
+        android:layout_toStartOf="@+id/radioGroup_gameplay" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/play_button"
+        android:id="@+id/button_play"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/iv_gameboard"
+        android:layout_alignStart="@+id/button_instructions"
+        android:layout_marginTop="21dp" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/settings_button"
+        android:id="@+id/button_settings"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/button_instructions"
+        android:layout_alignStart="@+id/button_instructions"
+        android:layout_marginTop="29dp" />
+
+    <ImageView
+        app:srcCompat="@drawable/bluearrow_right"
+        android:id="@+id/arrowright_one"
+        android:layout_height="50dp"
+        android:layout_above="@+id/button_instructions"
+        android:layout_toStartOf="@+id/button_dropbutton"
+        android:layout_width="90dp" />
+
+    <ImageView
+        app:srcCompat="@drawable/bluearrow_right"
+        android:id="@+id/arrowright_two"
+        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_alignTop="@+id/button_instructions"
+        android:layout_alignStart="@+id/arrowright_one" />
+
+    <ImageView
+        app:srcCompat="@drawable/bluearrow_right"
+        android:id="@+id/arrowright_three"
+        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_alignTop="@+id/button_settings"
+        android:layout_alignStart="@+id/arrowright_two" />
+
 </RelativeLayout>
