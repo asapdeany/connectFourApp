@@ -8,9 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.security.Provider;
 
@@ -26,6 +31,14 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     static int moveFlag = -1;
 
 
+    private ImageButton instructionsButton, playButton, settingsButton, undoButton;
+
+    private ImageView arrowRight_one, arrowRight_two, arrowRight_three;
+    private TextView textview_play, textview_settings, textview_instruction;
+
+    private int instruction_flag = 1;
+
+
 
 
 
@@ -35,6 +48,85 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup_gameplay);
         radioGroup.setOnCheckedChangeListener(this);
+
+        final Animation myFadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
+        final Animation myFadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+
+        arrowRight_one = (ImageView) root.findViewById(R.id.arrowright_one);
+        arrowRight_two = (ImageView) root.findViewById(R.id.arrowright_two);
+        arrowRight_three = (ImageView) root.findViewById(R.id.arrowright_three);
+
+        textview_play = (TextView) root.findViewById(R.id.textview_play);
+        textview_instruction = (TextView) root.findViewById(R.id.textview_instruction);
+        textview_settings = (TextView) root.findViewById(R.id.textview_settings);
+
+
+        playButton = (ImageButton) root.findViewById(R.id.button_play);
+        playButton = (ImageButton) root.findViewById(R.id.button_play);
+        playButton = (ImageButton) root.findViewById(R.id.button_play);
+        instructionsButton = (ImageButton) root.findViewById(R.id.button_instructions);
+        undoButton = (ImageButton) root.findViewById(R.id.button_undo);
+
+
+        instructionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (instruction_flag == 0){
+
+                    arrowRight_one.clearAnimation();
+                    arrowRight_one.setVisibility(View.INVISIBLE);
+
+                    arrowRight_two.clearAnimation();
+                    arrowRight_two.setVisibility(View.INVISIBLE);
+
+                    arrowRight_three.clearAnimation();
+                    arrowRight_three.setVisibility(View.INVISIBLE);
+
+                    textview_play.clearAnimation();
+                    textview_play.setVisibility(View.INVISIBLE);
+
+                    textview_settings.clearAnimation();
+                    textview_settings.setVisibility(View.INVISIBLE);
+
+                    textview_instruction.clearAnimation();
+                    textview_instruction.setVisibility(View.INVISIBLE);
+                    instruction_flag = 1;
+                }
+                else if (instruction_flag == 1){
+                    arrowRight_one.startAnimation(myFadeInAnimation);
+                    arrowRight_one.setVisibility(View.VISIBLE);
+                    arrowRight_two.startAnimation(myFadeInAnimation);
+                    arrowRight_two.setVisibility(View.VISIBLE);
+                    arrowRight_three.startAnimation(myFadeInAnimation);
+                    arrowRight_three.setVisibility(View.VISIBLE);
+
+                    textview_play.startAnimation(myFadeInAnimation);
+                    textview_play.setVisibility(View.VISIBLE);
+
+                    textview_settings.startAnimation(myFadeInAnimation);
+                    textview_settings.setVisibility(View.VISIBLE);
+
+                    textview_instruction.startAnimation(myFadeInAnimation);
+                    textview_instruction.setVisibility(View.VISIBLE);
+
+
+                    instruction_flag = 0;
+                }
+
+
+            }
+        });
+
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //undo From GameEnvironment
+            }
+        });
+
+
 
         //hide status bar
         system_ui_manager = new System_UI_Manager(getActivity());
@@ -77,5 +169,11 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 moveFlag = 7;
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        system_ui_manager = new System_UI_Manager(getActivity());
+        super.onResume();
     }
 }
