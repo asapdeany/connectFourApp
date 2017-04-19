@@ -28,8 +28,6 @@ public class GameAI {
         //System.out.println("Your move (1-7): ");
 
         int move = GameFragment.moveFlag;
-        //Grab from editText;
-        // int move = scan.nextInt();
         while(move<1 || move > 7 || !gameEnvironment.isMoveLegal(move-1)){
             System.out.println("Invalid move.\n\nYour move (1-7): ");
             move = GameFragment.moveFlag;

@@ -1,9 +1,12 @@
 package com.example.deansponholz.ai_finalproject;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +36,10 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     private ImageButton instructionsButton, playButton, settingsButton, undoButton;
 
-    private ImageView arrowRight_one, arrowRight_two, arrowRight_three;
-    private TextView textview_play, textview_settings, textview_instruction;
+    private ImageView arrowRight_one, arrowRight_two, arrowRight_three, arrow_undo;
+    private TextView textview_play, textview_settings, textview_instruction, textview_undo, textview_statistics;
 
+    private AlertDialog alert;
     private int instruction_flag = 1;
 
 
@@ -50,16 +54,18 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         radioGroup.setOnCheckedChangeListener(this);
 
         final Animation myFadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-        final Animation myFadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+        //final Animation myFadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
 
         arrowRight_one = (ImageView) root.findViewById(R.id.arrowright_one);
         arrowRight_two = (ImageView) root.findViewById(R.id.arrowright_two);
         arrowRight_three = (ImageView) root.findViewById(R.id.arrowright_three);
+        arrow_undo = (ImageView) root.findViewById(R.id.arrow_undo);
 
         textview_play = (TextView) root.findViewById(R.id.textview_play);
         textview_instruction = (TextView) root.findViewById(R.id.textview_instruction);
         textview_settings = (TextView) root.findViewById(R.id.textview_settings);
-
+        textview_undo = (TextView) root.findViewById(R.id.textview_undo);
+        textview_statistics = (TextView) root.findViewById(R.id.textview_statistics);
 
         playButton = (ImageButton) root.findViewById(R.id.button_play);
         playButton = (ImageButton) root.findViewById(R.id.button_play);
@@ -84,6 +90,9 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                     arrowRight_three.clearAnimation();
                     arrowRight_three.setVisibility(View.INVISIBLE);
 
+                    arrow_undo.clearAnimation();
+                    arrow_undo.setVisibility(View.INVISIBLE);
+
                     textview_play.clearAnimation();
                     textview_play.setVisibility(View.INVISIBLE);
 
@@ -92,15 +101,24 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                     textview_instruction.clearAnimation();
                     textview_instruction.setVisibility(View.INVISIBLE);
+
+                    textview_undo.clearAnimation();
+                    textview_undo.setVisibility(View.INVISIBLE);
                     instruction_flag = 1;
                 }
                 else if (instruction_flag == 1){
+
                     arrowRight_one.startAnimation(myFadeInAnimation);
                     arrowRight_one.setVisibility(View.VISIBLE);
+
                     arrowRight_two.startAnimation(myFadeInAnimation);
                     arrowRight_two.setVisibility(View.VISIBLE);
+
                     arrowRight_three.startAnimation(myFadeInAnimation);
                     arrowRight_three.setVisibility(View.VISIBLE);
+
+                    arrow_undo.startAnimation(myFadeInAnimation);
+                    arrow_undo.setVisibility(View.VISIBLE);
 
                     textview_play.startAnimation(myFadeInAnimation);
                     textview_play.setVisibility(View.VISIBLE);
@@ -111,6 +129,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                     textview_instruction.startAnimation(myFadeInAnimation);
                     textview_instruction.setVisibility(View.VISIBLE);
 
+                    textview_undo.startAnimation(myFadeInAnimation);
+                    textview_undo.setVisibility(View.VISIBLE);
 
                     instruction_flag = 0;
                 }
@@ -126,10 +146,56 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             }
         });
 
+        textview_statistics.setMovementMethod(new ScrollingMovementMethod());
+
 
 
         //hide status bar
         system_ui_manager = new System_UI_Manager(getActivity());
+
+
+
+
+
+
+        ////////////////
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+
+        builder.setTitle("Confirm Restart");
+        builder.setMessage("Are you would like to restart? \n (All Progress will be lost)");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+
+                dialog.dismiss();
+                system_ui_manager = new System_UI_Manager(getActivity());
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+                system_ui_manager = new System_UI_Manager(getActivity());
+            }
+        });
+
+        alert = builder.create();
+
+        ///////////////////////////
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.show();
+            }
+        });
 
 
 
@@ -141,32 +207,32 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         switch(checkedId) {
             case R.id.radioButton:
-                Log.d("onCheckChanged", Integer.toString(1));
-                moveFlag = 1;
+                Log.d("onCheckChanged", Integer.toString(7));
+                moveFlag = 7;
                 break;
             case R.id.radioButton2:
-                Log.d("onCheckChanged", Integer.toString(2));
-                moveFlag = 2;
+                Log.d("onCheckChanged", Integer.toString(6));
+                moveFlag = 6;
                 break;
             case R.id.radioButton3:
-                Log.d("onCheckChanged", Integer.toString(3));
-                moveFlag = 3;
+                Log.d("onCheckChanged", Integer.toString(5));
+                moveFlag = 5;
                 break;
             case R.id.radioButton4:
                 Log.d("onCheckChanged", Integer.toString(4));
                 moveFlag = 4;
                 break;
             case R.id.radioButton5:
-                Log.d("onCheckChanged", Integer.toString(5));
-                moveFlag = 5;
+                Log.d("onCheckChanged", Integer.toString(3));
+                moveFlag = 3;
                 break;
             case R.id.radioButton6:
-                Log.d("onCheckChanged", Integer.toString(6));
-                moveFlag = 6;
+                Log.d("onCheckChanged", Integer.toString(2));
+                moveFlag = 2;
                 break;
             case R.id.radioButton7:
-                Log.d("onCheckChanged", Integer.toString(7));
-                moveFlag = 7;
+                Log.d("onCheckChanged", Integer.toString(1));
+                moveFlag = 1;
                 break;
         }
     }

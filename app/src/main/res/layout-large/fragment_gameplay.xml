@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton7"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp" />
 
         <RadioButton
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton6"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp" />
 
         <RadioButton
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton5"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
 
         <RadioButton
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton4"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
 
         <RadioButton
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton3"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
 
         <RadioButton
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton2"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
 
         <RadioButton
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton"
             android:layout_weight="1"
-            app:buttonTint="@android:color/black"
+            android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
     </RadioGroup>
 
@@ -207,6 +207,26 @@
         android:id="@+id/button_undo"
         android:scaleType="fitXY"
         android:background="@android:color/transparent" />
+
+    <ImageView
+        app:srcCompat="@drawable/bluearrow_right"
+        android:id="@+id/arrow_undo"
+        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/arrowright_two" />
+
+    <TextView
+        android:text="Undo Last Move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_undo"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="12sp"
+        android:paddingBottom="8dp"
+        android:layout_alignBottom="@+id/button_undo"
+        android:layout_toStartOf="@+id/textview_instruction"
+        android:layout_marginBottom="11dp" />
 
 
 </RelativeLayout>
