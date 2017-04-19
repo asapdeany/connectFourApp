@@ -1,5 +1,7 @@
 package com.example.deansponholz.ai_finalproject;
 
+import android.app.Activity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -13,8 +15,11 @@ public class GameEnvironment {
     static byte[][] gameGrid = new byte[6][7];
     String gameBoard = new String();
 
+
+
     //constructor
     public GameEnvironment(){
+
 
         //initialize game board
         gameGrid = new byte[][]{
