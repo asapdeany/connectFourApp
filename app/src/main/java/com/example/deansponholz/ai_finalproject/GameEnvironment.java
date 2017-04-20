@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by deansponholz on 4/8/17.
  */
@@ -64,8 +66,8 @@ public class GameEnvironment {
     //display game-board to Console(for now)
 
 
-    public void displayEnvironment(TextView tv){
-        //System.out.println();
+    public void displayEnvironment(){
+        System.out.println();
         for (int i=0; i <=5; ++i){
             for(int k = 0; k <=6; ++k){
                 System.out.print(gameGrid[i][k] + " ");
@@ -73,7 +75,6 @@ public class GameEnvironment {
             }
             System.out.println();
             gameBoard = gameBoard + "\n";
-            tv.setText(gameBoard);
         }
         System.out.println();
     }

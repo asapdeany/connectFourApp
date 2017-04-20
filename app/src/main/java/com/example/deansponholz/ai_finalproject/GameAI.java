@@ -1,5 +1,6 @@
 package com.example.deansponholz.ai_finalproject;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.Scanner;
@@ -27,10 +28,15 @@ public class GameAI {
 
         //System.out.println("Your move (1-7): ");
 
+
         int move = GameFragment.moveFlag;
-        while(move<1 || move > 7 || !gameEnvironment.isMoveLegal(move-1)){
-            System.out.println("Invalid move.\n\nYour move (1-7): ");
-            move = GameFragment.moveFlag;
+        System.out.println(move);
+
+        if (move < 0) {
+
+            while (!gameEnvironment.isMoveLegal(move - 1)) {
+                System.out.println("Invalid move.\n\nYour move (1-7): ");
+            }
         }
 
         //Assume 2 is the opponent
@@ -285,36 +291,36 @@ public class GameAI {
 
 
     public void playAgainstAIConsole(){
-        int humanMove=-1;
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Would you like to play first? (yes/no) ");
-        String answer = scan.next().trim();
-
-        if(answer.equalsIgnoreCase("yes")) letOpponentMove();
 
 
-        /*
-        b.displayBoard();
-        b.placeMove(3, 1);
-        b.displayBoard();
+        if(GameFragment.moveFirst == true && GameFragment.moveChosen == true){
+            letOpponentMove();
+        }
+        else{
+            Log.d("ew", "ew");
+        }
+
+        gameEnvironment.displayEnvironment();
+        gameEnvironment.dropPiece(3, 1);
+        gameEnvironment.displayEnvironment();
 
         while(true){
             letOpponentMove();
-            b.displayBoard();
+            gameEnvironment.displayEnvironment();
 
-            int gameResult = gameResult(b);
+            int gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
 
-            b.placeMove(getAIMove(), 1);
-            b.displayBoard();
-            gameResult = gameResult(b);
+            gameEnvironment.dropPiece(getAIMove(), 1);
+            gameEnvironment.displayEnvironment();
+            gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
         }
-        */
+
 
     }
 
