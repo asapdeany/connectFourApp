@@ -5,8 +5,6 @@ import android.app.Fragment;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -135,6 +133,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         return root;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
@@ -339,6 +339,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         });
     }
 
+    //This is where the game begins
     public AlertDialog.Builder alertFunctionFirstMove(View root){
         AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
 

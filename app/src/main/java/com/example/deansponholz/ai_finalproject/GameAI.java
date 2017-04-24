@@ -239,14 +239,29 @@ public class GameAI {
 
     public int minimax(int depth, int turn, int alpha, int beta){
 
-        if(beta<=alpha){if(turn == 1) return Integer.MAX_VALUE; else return Integer.MIN_VALUE; }
+        if(beta<=alpha){
+            if(turn == 1)
+                return Integer.MAX_VALUE;
+            else {
+                return Integer.MIN_VALUE;
+            }
+        }
+
         int gameResult = gameResult(gameEnvironment);
 
-        if(gameResult==1)return Integer.MAX_VALUE/2;
-        else if(gameResult==2)return Integer.MIN_VALUE/2;
-        else if(gameResult==0)return 0;
+        if(gameResult==1){
+            return Integer.MAX_VALUE/2;
+        }
+        else if(gameResult==2){
+            return Integer.MIN_VALUE/2;
+        }
+        else if(gameResult==0){
+            return 0;
+        }
 
-        if(depth==depthMax)return evaluateBoard(gameEnvironment);
+        if(depth==depthMax){
+            return evaluateBoard(gameEnvironment);
+        }
 
         int maxScore=Integer.MIN_VALUE, minScore = Integer.MAX_VALUE;
 
@@ -263,7 +278,8 @@ public class GameAI {
                 if(depth==0){
                     System.out.println("Score for location "+j+" = "+currentScore);
                     if(currentScore > maxScore)nextMoveSpot = j;
-                    if(currentScore == Integer.MAX_VALUE/2){gameEnvironment.undoLastMove(j);break;}
+                    if(currentScore == Integer.MAX_VALUE/2){
+                        gameEnvironment.undoLastMove(j);break;}
                 }
 
                 maxScore = Math.max(currentScore, maxScore);
