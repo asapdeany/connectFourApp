@@ -309,9 +309,6 @@ public class GameAI {
     public void playAgainstAIConsole(){
 
 
-        if(GameFragment.moveFirst == true && GameFragment.moveChosen == true){
-            letOpponentMove();
-        }
         else{
             Log.d("ew", "ew");
         }
