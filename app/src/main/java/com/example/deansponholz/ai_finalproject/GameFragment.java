@@ -35,18 +35,17 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     private RadioGroup radioGroup;
     private System_UI_Manager system_ui_manager;
     static int moveFlag = -1;
-    static boolean moveFirst, gameStarted, moveChosen;
 
 
-    private ImageButton instructionsButton, playButton, restartButton, undoButton, dropButton;
+    private ImageButton instructionsButton, playButton, settingsButton, undoButton;
 
     private ImageView arrowRight_one, arrowRight_two, arrowRight_three, arrow_undo;
     private TextView textview_play, textview_settings, textview_instruction, textview_undo, textview_statistics;
 
-    private AlertDialog alertRestart, alertFirstMove;
+    private AlertDialog alert;
     private int instruction_flag = 1;
 
-    static ArrayList<ImageView> boardList = new ArrayList<>();
+    ArrayList<ImageView> boardList = new ArrayList<>();
 
     ImageView iv_11, iv_12, iv_13, iv_14, iv_15, iv_16, iv_17,
             iv_21, iv_22,iv_23, iv_24, iv_25, iv_26, iv_27,
@@ -55,129 +54,151 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             iv_51, iv_52, iv_53, iv_54, iv_55, iv_56, iv_57,
             iv_61, iv_62, iv_63, iv_64, iv_65, iv_66, iv_67;
 
-    GameEnvironment gameEnvironment;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_gameplay, container, false);
 
-        //hide status bar
-        system_ui_manager = new System_UI_Manager(getActivity());
-
-        //radioButtons
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup_gameplay);
         radioGroup.setOnCheckedChangeListener(this);
 
-        //arrows
+        final Animation myFadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
+        //final Animation myFadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+
         arrowRight_one = (ImageView) root.findViewById(R.id.arrowright_one);
         arrowRight_two = (ImageView) root.findViewById(R.id.arrowright_two);
         arrowRight_three = (ImageView) root.findViewById(R.id.arrowright_three);
         arrow_undo = (ImageView) root.findViewById(R.id.arrow_undo);
 
-        //textViews
         textview_play = (TextView) root.findViewById(R.id.textview_play);
         textview_instruction = (TextView) root.findViewById(R.id.textview_instruction);
         textview_settings = (TextView) root.findViewById(R.id.textview_settings);
         textview_undo = (TextView) root.findViewById(R.id.textview_undo);
         textview_statistics = (TextView) root.findViewById(R.id.textview_statistics);
-        textview_statistics.setMovementMethod(new ScrollingMovementMethod());
 
-        //Alert Dialogs
-        AlertDialog.Builder builderRestart = alertFunctionRestart(root);
-        alertRestart = builderRestart.create();
-        alertRestart.setCanceledOnTouchOutside(false);
-        AlertDialog.Builder builderFirstMove = alertFunctionFirstMove(root);
-        alertFirstMove = builderFirstMove.create();
-        alertFirstMove.setCanceledOnTouchOutside(false);
-
-        //Buttons
-        instructionsButton = (ImageButton) root.findViewById(R.id.button_instructions);
-        instructionButtonListener(instructionsButton);
         playButton = (ImageButton) root.findViewById(R.id.button_play);
-        playButton.setOnClickListener(new View.OnClickListener() {
+        playButton = (ImageButton) root.findViewById(R.id.button_play);
+        playButton = (ImageButton) root.findViewById(R.id.button_play);
+        instructionsButton = (ImageButton) root.findViewById(R.id.button_instructions);
+        undoButton = (ImageButton) root.findViewById(R.id.button_undo);
+
+
+        instructionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                alertFirstMove.show();
-            }
-        });
-        restartButton = (ImageButton) root.findViewById(R.id.button_settings);
-        restartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertRestart.show();
+            public void onClick(View v) {
+
+
+                if (instruction_flag == 0){
+
+                    arrowRight_one.clearAnimation();
+                    arrowRight_one.setVisibility(View.INVISIBLE);
+
+                    arrowRight_two.clearAnimation();
+                    arrowRight_two.setVisibility(View.INVISIBLE);
+
+                    arrowRight_three.clearAnimation();
+                    arrowRight_three.setVisibility(View.INVISIBLE);
+
+                    arrow_undo.clearAnimation();
+                    arrow_undo.setVisibility(View.INVISIBLE);
+
+                    textview_play.clearAnimation();
+                    textview_play.setVisibility(View.INVISIBLE);
+
+                    textview_settings.clearAnimation();
+                    textview_settings.setVisibility(View.INVISIBLE);
+
+                    textview_instruction.clearAnimation();
+                    textview_instruction.setVisibility(View.INVISIBLE);
+
+                    textview_undo.clearAnimation();
+                    textview_undo.setVisibility(View.INVISIBLE);
+                    instruction_flag = 1;
+                }
+                else if (instruction_flag == 1){
+
+                    arrowRight_one.startAnimation(myFadeInAnimation);
+                    arrowRight_one.setVisibility(View.VISIBLE);
+
+                    arrowRight_two.startAnimation(myFadeInAnimation);
+                    arrowRight_two.setVisibility(View.VISIBLE);
+
+                    arrowRight_three.startAnimation(myFadeInAnimation);
+                    arrowRight_three.setVisibility(View.VISIBLE);
+
+                    arrow_undo.startAnimation(myFadeInAnimation);
+                    arrow_undo.setVisibility(View.VISIBLE);
+
+                    textview_play.startAnimation(myFadeInAnimation);
+                    textview_play.setVisibility(View.VISIBLE);
+
+                    textview_settings.startAnimation(myFadeInAnimation);
+                    textview_settings.setVisibility(View.VISIBLE);
+
+                    textview_instruction.startAnimation(myFadeInAnimation);
+                    textview_instruction.setVisibility(View.VISIBLE);
+
+                    textview_undo.startAnimation(myFadeInAnimation);
+                    textview_undo.setVisibility(View.VISIBLE);
+
+                    instruction_flag = 0;
+                }
+
+
             }
         });
 
-        undoButton = (ImageButton) root.findViewById(R.id.button_undo);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //undo From GameEnvironment
             }
         });
-        dropButton = (ImageButton) root.findViewById(R.id.button_dropbutton);
-        dropButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
+        textview_statistics.setMovementMethod(new ScrollingMovementMethod());
+
+        //hide status bar
+        system_ui_manager = new System_UI_Manager(getActivity());
+        ////////////////
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+
+        builder.setTitle("Confirm Restart");
+        builder.setMessage("Are you would like to restart? \n (All Progress will be lost)");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+
+                dialog.dismiss();
+                system_ui_manager = new System_UI_Manager(getActivity());
             }
         });
 
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-        intializeGameBoard(root);
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-        //textview_statistics.setText(Integer.toString(boardList.size()));
+                // Do nothing
+                dialog.dismiss();
+                system_ui_manager = new System_UI_Manager(getActivity());
+            }
+        });
 
+        alert = builder.create();
 
+        ///////////////////////////
 
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.show();
+            }
+        });
 
-        return root;
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-        switch(checkedId) {
-            case R.id.radioButton:
-                Log.d("onCheckChanged", Integer.toString(7));
-                moveFlag = 7;
-                moveChosen = true;
-                break;
-            case R.id.radioButton2:
-                Log.d("onCheckChanged", Integer.toString(6));
-                moveFlag = 6;
-                moveChosen = true;
-                break;
-            case R.id.radioButton3:
-                Log.d("onCheckChanged", Integer.toString(5));
-                moveFlag = 5;
-                moveChosen = true;
-                break;
-            case R.id.radioButton4:
-                Log.d("onCheckChanged", Integer.toString(4));
-                moveFlag = 4;
-                moveChosen = true;
-                break;
-            case R.id.radioButton5:
-                Log.d("onCheckChanged", Integer.toString(3));
-                moveFlag = 3;
-                moveChosen = true;
-                break;
-            case R.id.radioButton6:
-                Log.d("onCheckChanged", Integer.toString(2));
-                moveFlag = 2;
-                moveChosen = true;
-                break;
-            case R.id.radioButton7:
-                Log.d("onCheckChanged", Integer.toString(1));
-                moveFlag = 1;
-                moveChosen = true;
-                break;
-        }
-    }
-
-    public void intializeGameBoard(View root){
 
         iv_11 = (ImageView) root.findViewById(R.id.iv_11);
         boardList.add(iv_11);
@@ -268,143 +289,44 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         boardList.add(iv_66);
         iv_67 = (ImageView) root.findViewById(R.id.iv_67);
         boardList.add(iv_67);
+
+        //textview_statistics.setText(Integer.toString(boardList.size()));
+        return root;
     }
 
-    public void instructionButtonListener(ImageButton imageButton){
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-        final Animation myFadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (instruction_flag == 0){
-
-                    arrowRight_one.clearAnimation();
-                    arrowRight_one.setVisibility(View.INVISIBLE);
-
-                    arrowRight_two.clearAnimation();
-                    arrowRight_two.setVisibility(View.INVISIBLE);
-
-                    arrowRight_three.clearAnimation();
-                    arrowRight_three.setVisibility(View.INVISIBLE);
-
-                    arrow_undo.clearAnimation();
-                    arrow_undo.setVisibility(View.INVISIBLE);
-
-                    textview_play.clearAnimation();
-                    textview_play.setVisibility(View.INVISIBLE);
-
-                    textview_settings.clearAnimation();
-                    textview_settings.setVisibility(View.INVISIBLE);
-
-                    textview_instruction.clearAnimation();
-                    textview_instruction.setVisibility(View.INVISIBLE);
-
-                    textview_undo.clearAnimation();
-                    textview_undo.setVisibility(View.INVISIBLE);
-                    instruction_flag = 1;
-                }
-                else if (instruction_flag == 1){
-
-                    arrowRight_one.startAnimation(myFadeInAnimation);
-                    arrowRight_one.setVisibility(View.VISIBLE);
-
-                    arrowRight_two.startAnimation(myFadeInAnimation);
-                    arrowRight_two.setVisibility(View.VISIBLE);
-
-                    arrowRight_three.startAnimation(myFadeInAnimation);
-                    arrowRight_three.setVisibility(View.VISIBLE);
-
-                    arrow_undo.startAnimation(myFadeInAnimation);
-                    arrow_undo.setVisibility(View.VISIBLE);
-
-                    textview_play.startAnimation(myFadeInAnimation);
-                    textview_play.setVisibility(View.VISIBLE);
-
-                    textview_settings.startAnimation(myFadeInAnimation);
-                    textview_settings.setVisibility(View.VISIBLE);
-
-                    textview_instruction.startAnimation(myFadeInAnimation);
-                    textview_instruction.setVisibility(View.VISIBLE);
-
-                    textview_undo.startAnimation(myFadeInAnimation);
-                    textview_undo.setVisibility(View.VISIBLE);
-
-                    instruction_flag = 0;
-                }
-
-
-            }
-        });
-    }
-
-    public AlertDialog.Builder alertFunctionFirstMove(View root){
-        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-
-        builder.setTitle("Confirm Restart");
-        builder.setMessage("Would you like to move first?");
-
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
-                moveFirst = true;
-                dialog.dismiss();
-                /*
-                gameEnvironment = new GameEnvironment();
-                GameAI gameAI = new GameAI(gameEnvironment);
-                gameAI.playAgainstAIConsole();
-                */
-                system_ui_manager = new System_UI_Manager(getActivity());
-            }
-        });
-
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // Do nothing
-                moveFirst = false;
-                dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
-            }
-        });
-
-        return builder;
-    }
-
-    public AlertDialog.Builder alertFunctionRestart(View root){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-
-        builder.setTitle("Confirm Restart");
-        builder.setMessage("Are you would like to restart? \n (All Progress will be lost)");
-
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
-
-                dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
-            }
-        });
-
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // Do nothing
-                dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
-            }
-        });
-
-        return builder;
-
+        switch(checkedId) {
+            case R.id.radioButton:
+                Log.d("onCheckChanged", Integer.toString(7));
+                moveFlag = 7;
+                break;
+            case R.id.radioButton2:
+                Log.d("onCheckChanged", Integer.toString(6));
+                moveFlag = 6;
+                break;
+            case R.id.radioButton3:
+                Log.d("onCheckChanged", Integer.toString(5));
+                moveFlag = 5;
+                break;
+            case R.id.radioButton4:
+                Log.d("onCheckChanged", Integer.toString(4));
+                moveFlag = 4;
+                break;
+            case R.id.radioButton5:
+                Log.d("onCheckChanged", Integer.toString(3));
+                moveFlag = 3;
+                break;
+            case R.id.radioButton6:
+                Log.d("onCheckChanged", Integer.toString(2));
+                moveFlag = 2;
+                break;
+            case R.id.radioButton7:
+                Log.d("onCheckChanged", Integer.toString(1));
+                moveFlag = 1;
+                break;
+        }
     }
 
     public void startGame(){
