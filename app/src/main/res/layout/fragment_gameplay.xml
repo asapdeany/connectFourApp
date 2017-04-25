@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_gameplay"
-    android:background="@drawable/majors_room_scene">
+    android:background="@drawable/majors_room_scene"
+    android:clickable="false">
 
     <TextView
         android:text=""
