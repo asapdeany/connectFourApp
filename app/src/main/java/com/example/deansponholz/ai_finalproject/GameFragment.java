@@ -180,97 +180,101 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         boardList = new ImageView[6][7];
 
         iv_11 = (ImageView) root.findViewById(R.id.iv_11);
-        boardList[0][0] = (iv_11);
-
-
-
         iv_12 = (ImageView) root.findViewById(R.id.iv_12);
-        boardList[0][1] = (iv_12);
         iv_13 = (ImageView) root.findViewById(R.id.iv_13);
-        boardList[0][2] = (iv_13);
         iv_14 = (ImageView) root.findViewById(R.id.iv_14);
-        boardList[0][3] = (iv_14);
         iv_15 = (ImageView) root.findViewById(R.id.iv_15);
-        boardList[0][4] = (iv_15);
         iv_16 = (ImageView) root.findViewById(R.id.iv_16);
-        boardList[0][5] = (iv_16);
         iv_17 = (ImageView) root.findViewById(R.id.iv_17);
-        boardList[0][6] = (iv_17);
+
 
         iv_21 = (ImageView) root.findViewById(R.id.iv_21);
-        boardList[1][0] = (iv_21);
         iv_22 = (ImageView) root.findViewById(R.id.iv_22);
-        boardList[1][1] = (iv_22);
         iv_23 = (ImageView) root.findViewById(R.id.iv_23);
-        boardList[1][2] = (iv_23);
         iv_24 = (ImageView) root.findViewById(R.id.iv_24);
-        boardList[1][3] = (iv_24);
         iv_25 = (ImageView) root.findViewById(R.id.iv_25);
-        boardList[1][4] = (iv_25);
         iv_26 = (ImageView) root.findViewById(R.id.iv_26);
-        boardList[1][5] = (iv_26);
         iv_27 = (ImageView) root.findViewById(R.id.iv_27);
-        boardList[1][6] = (iv_27);
 
         iv_31 = (ImageView) root.findViewById(R.id.iv_31);
-        boardList[2][0] = (iv_31);
         iv_32 = (ImageView) root.findViewById(R.id.iv_32);
-        boardList[2][1] = (iv_32);
         iv_33 = (ImageView) root.findViewById(R.id.iv_33);
-        boardList[2][2] = (iv_33);
         iv_34 = (ImageView) root.findViewById(R.id.iv_34);
-        boardList[2][3] = (iv_34);
         iv_35 = (ImageView) root.findViewById(R.id.iv_35);
-        boardList[2][4] = (iv_35);
         iv_36 = (ImageView) root.findViewById(R.id.iv_36);
-        boardList[2][5] = (iv_36);
         iv_37 = (ImageView) root.findViewById(R.id.iv_37);
-        boardList[2][6] = (iv_37);
 
         iv_41 = (ImageView) root.findViewById(R.id.iv_41);
-        boardList[3][0] = (iv_41);
         iv_42 = (ImageView) root.findViewById(R.id.iv_42);
-        boardList[3][1] = (iv_42);
         iv_43 = (ImageView) root.findViewById(R.id.iv_43);
-        boardList[3][2] = (iv_43);
         iv_44 = (ImageView) root.findViewById(R.id.iv_44);
-        boardList[3][3] = (iv_44);
         iv_45 = (ImageView) root.findViewById(R.id.iv_45);
-        boardList[3][4] = (iv_45);
         iv_46 = (ImageView) root.findViewById(R.id.iv_46);
-        boardList[3][5] = (iv_46);
         iv_47 = (ImageView) root.findViewById(R.id.iv_47);
-        boardList[3][6] = (iv_47);
 
         iv_51 = (ImageView) root.findViewById(R.id.iv_51);
-        boardList[4][0] = (iv_51);
         iv_52 = (ImageView) root.findViewById(R.id.iv_52);
-        boardList[4][1] = (iv_52);
         iv_53 = (ImageView) root.findViewById(R.id.iv_53);
-        boardList[4][2] = (iv_53);
         iv_54 = (ImageView) root.findViewById(R.id.iv_54);
-        boardList[4][3] = (iv_54);
         iv_55 = (ImageView) root.findViewById(R.id.iv_55);
-        boardList[4][4] = (iv_55);
         iv_56 = (ImageView) root.findViewById(R.id.iv_56);
-        boardList[4][5] = (iv_56);
         iv_57 = (ImageView) root.findViewById(R.id.iv_57);
-        boardList[4][6] = (iv_57);
 
         iv_61 = (ImageView) root.findViewById(R.id.iv_61);
-        boardList[5][0] = (iv_61);
         iv_62 = (ImageView) root.findViewById(R.id.iv_62);
-        boardList[5][1] = (iv_62);
         iv_63 = (ImageView) root.findViewById(R.id.iv_63);
-        boardList[5][2] = (iv_63);
         iv_64 = (ImageView) root.findViewById(R.id.iv_64);
-        boardList[5][3] = (iv_64);
         iv_65 = (ImageView) root.findViewById(R.id.iv_65);
-        boardList[5][4] = (iv_65);
         iv_66 = (ImageView) root.findViewById(R.id.iv_66);
-        boardList[5][5] = (iv_66);
         iv_67 = (ImageView) root.findViewById(R.id.iv_67);
-        boardList[5][6] = (iv_67);
+
+        boardList[0][0] = (iv_61);
+        boardList[0][1] = (iv_62);
+        boardList[0][2] = (iv_63);
+        boardList[0][3] = (iv_64);
+        boardList[0][4] = (iv_65);
+        boardList[0][5] = (iv_66);
+        boardList[0][6] = (iv_67);
+
+        boardList[1][0] = (iv_51);
+        boardList[1][1] = (iv_52);
+        boardList[1][2] = (iv_53);
+        boardList[1][3] = (iv_54);
+        boardList[1][4] = (iv_55);
+        boardList[1][5] = (iv_56);
+        boardList[1][6] = (iv_57);
+
+        boardList[2][0] = (iv_41);
+        boardList[2][1] = (iv_42);
+        boardList[2][2] = (iv_43);
+        boardList[2][3] = (iv_44);
+        boardList[2][4] = (iv_45);
+        boardList[2][5] = (iv_46);
+        boardList[2][6] = (iv_47);
+
+        boardList[3][0] = (iv_31);
+        boardList[3][1] = (iv_32);
+        boardList[3][2] = (iv_33);
+        boardList[3][3] = (iv_34);
+        boardList[3][4] = (iv_35);
+        boardList[3][5] = (iv_36);
+        boardList[3][6] = (iv_37);
+
+        boardList[4][0] = (iv_21);
+        boardList[4][1] = (iv_22);
+        boardList[4][2] = (iv_23);
+        boardList[4][3] = (iv_24);
+        boardList[4][4] = (iv_25);
+        boardList[4][5] = (iv_26);
+        boardList[4][6] = (iv_27);
+
+        boardList[5][0] = (iv_11);
+        boardList[5][1] = (iv_12);
+        boardList[5][2] = (iv_13);
+        boardList[5][3] = (iv_14);
+        boardList[5][4] = (iv_15);
+        boardList[5][5] = (iv_16);
+        boardList[5][6] = (iv_17);
 
     }
 
@@ -343,48 +347,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         });
     }
 
-    //This is where the game begins
-    public AlertDialog.Builder alertFunctionDifficulty(final View root){
-
-        //following code will be in your activity.java file
-        final CharSequence[] items = {" Easy "," Medium "," Hard "};
-        // arraylist to keep the selected items
-        final ArrayList seletedItems=new ArrayList();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-        builder.setTitle("Select The Difficulty Level");
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d("Difficulty option", Integer.toString(which));
-            }
-        });
-        // Set the action buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                //  Your code when user clicked on OK
-                //  You can write the code  to save the selected item here
-
-                AlertDialog.Builder builderMoveFirst = alertFunctionMoveFirst(root);
-                alertFirstMove = builderMoveFirst.create();
-                alertFirstMove.setCanceledOnTouchOutside(false);
-                alertFirstMove.show();
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                //  Your code when user clicked on Cancel
-
-                            }
-        });
-
-        return builder;
-    }
-
     public AlertDialog.Builder alertFunctionRestart(View root){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
@@ -417,6 +379,50 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     }
 
+    //This is where the game begins
+    public AlertDialog.Builder alertFunctionDifficulty(final View root){
+
+        //following code will be in your activity.java file
+        final CharSequence[] items = {" Easy "," Medium "," Hard "};
+        // arraylist to keep the selected items
+        final ArrayList seletedItems=new ArrayList();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+        builder.setTitle("Select The Difficulty Level");
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("Difficulty option", Integer.toString(which));
+            }
+        });
+        // Set the action buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                //  Your code when user clicked on OK
+                //  You can write the code  to save the selected item here
+
+                AlertDialog.Builder builderMoveFirst = alertFunctionMoveFirst(root);
+                alertFirstMove = builderMoveFirst.create();
+                alertFirstMove.setCanceledOnTouchOutside(false);
+                alertFirstMove.show();
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                //  Your code when user clicked on Cancel
+
+            }
+        });
+
+        return builder;
+    }
+
+
+
     public AlertDialog.Builder alertFunctionMoveFirst(View root){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
@@ -430,8 +436,9 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 // Do nothing but close the dialog
 
                 gameEnvironment = new GameEnvironment();
-                gameEnvironment.updateUI(iv_11);
-                gameEnvironment.displayEnvironment();
+                GameAI gameAI = new GameAI(gameEnvironment);
+                gameAI.playAgainstAIConsole();
+
                 dialog.dismiss();
                 system_ui_manager = new System_UI_Manager(getActivity());
             }
@@ -441,8 +448,13 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                gameEnvironment.updateUI(iv_11);
-                // Do nothing
+                //Start game
+                gameEnvironment = new GameEnvironment();
+                GameAI gameAI = new GameAI(gameEnvironment);
+                gameAI.playAgainstAIConsole();
+
+
+
                 dialog.dismiss();
                 system_ui_manager = new System_UI_Manager(getActivity());
             }
@@ -453,6 +465,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     }
 
     public void startGame(){
+
+
         /*
         b.displayBoard();
         b.placeMove(3, 1);
@@ -476,6 +490,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         }
         */
+
 
     }
     @Override

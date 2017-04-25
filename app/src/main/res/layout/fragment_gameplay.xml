@@ -35,7 +35,8 @@
             android:id="@+id/radioButton7"
             android:layout_weight="1"
             android:buttonTint="@android:color/black"
-            android:layout_marginRight="6dp" />
+            android:layout_marginRight="6dp"
+            android:checked="true" />
 
         <RadioButton
             android:layout_width="wrap_content"

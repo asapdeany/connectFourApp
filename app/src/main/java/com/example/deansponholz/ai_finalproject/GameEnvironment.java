@@ -2,6 +2,7 @@ package com.example.deansponholz.ai_finalproject;
 
 import android.app.Activity;
 import android.media.Image;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ public class GameEnvironment {
 
     //game board with 6x7 open spaces
     static byte[][] gameGrid = new byte[6][7];
-    //String gameBoard = new String();
+    String gameBoard = new String();
 
 
     ImageView imageView;
@@ -27,12 +28,12 @@ public class GameEnvironment {
 
         //initialize game board
         gameGrid = new byte[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 1, 0, 0, 0, 0, 0,},
-                {0, 0, 1, 0, 0, 0, 0, 0,},
-                {0, 0, 1, 0, 0, 0, 0, 0,},
-                {0, 0, 1, 2, 2, 2, 0, 1,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
         };
     }
 
@@ -67,14 +68,14 @@ public class GameEnvironment {
     // TODO: 4/11/17 - update UI
     //display game-board to Console(for now)
 
-
-    public void displayEnvironment(){
-        System.out.println();
-        for (int i=0; i <=5; ++i){
-            for(int k = 0; k <=6; ++k){
+    public void updateUI(){
+        System.out.println("---------------");
+        for (int i = 0; i <= 5; i++){
+            for (int k = 0; k <= 6; k++){
                 System.out.print(gameGrid[i][k] + " ");
-                //gameBoard = (gameBoard + gameGrid[i][k] + " ");
                 ImageView imageView = GameFragment.boardList[i][k];
+                //if this, that
+
                 if (gameGrid[i][k] == 0){
                     imageView.setImageResource(R.drawable.token_shape_empty);
                 }
@@ -84,17 +85,10 @@ public class GameEnvironment {
                 if (gameGrid[i][k] == 2){
                     imageView.setImageResource(R.drawable.token_shape_yellow);
                 }
-
             }
             System.out.println();
-            //gameBoard = gameBoard + "\n";
         }
-        System.out.println();
-    }
-
-
-    public void updateUI(ImageView imageView){
-        imageView.setImageResource(R.drawable.token_shape_red);
+        System.out.println("---------------");
 
     }
 }

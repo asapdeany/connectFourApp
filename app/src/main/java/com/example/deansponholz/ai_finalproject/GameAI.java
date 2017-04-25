@@ -13,7 +13,7 @@ public class GameAI {
 
     private GameEnvironment gameEnvironment;
     private Scanner scanner;
-    private int nextMoveSpot = -1;
+    private int nextMoveSpot = 1;
     private int depthMax = 9;
 
 
@@ -25,8 +25,6 @@ public class GameAI {
     }
 
     public void letOpponentMove(){
-
-        //System.out.println("Your move (1-7): ");
 
         int move = GameFragment.moveFlag;
         System.out.println(move);
@@ -406,13 +404,13 @@ public class GameAI {
 
     public void playAgainstAIConsole(){
 
-        gameEnvironment.displayEnvironment();
+        gameEnvironment.updateUI();
         gameEnvironment.dropPiece(3, 1);
-        gameEnvironment.displayEnvironment();
+        gameEnvironment.updateUI();
 
         while(true){
             letOpponentMove();
-            gameEnvironment.displayEnvironment();
+            gameEnvironment.updateUI();
 
             int gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
@@ -420,7 +418,7 @@ public class GameAI {
             else if(gameResult==0){System.out.println("Draw!");break;}
 
             gameEnvironment.dropPiece(getAIMove(), 1);
-            gameEnvironment.displayEnvironment();
+            gameEnvironment.updateUI();
             gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
@@ -428,5 +426,6 @@ public class GameAI {
         }
 
     }
+
 
 }
