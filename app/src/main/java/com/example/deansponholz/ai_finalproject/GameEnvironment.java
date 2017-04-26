@@ -57,7 +57,6 @@ public class GameEnvironment {
         for (int i = 5; i >= 0; i--){
             if(gameGrid[i][column] == 0){
                 gameGrid[i][column] = (byte) player;
-                updateUI();
                 return true;
             }
         }

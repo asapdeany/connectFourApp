@@ -9,12 +9,12 @@ import android.util.Log;
 public class GameAI {
 
     //Local GameVironment instance
-    private GameEnvironment gameEnvironment;
+    private static GameEnvironment gameEnvironment;
 
     //
-    private int nextMoveSpot = 1;
+    private static int nextMoveSpot = 1;
     //Depth max for Minimax
-    private int depthMax = 9;
+    private static int depthMax = 9;
 
 
     //Constructor - creates instance of GameAI
@@ -156,7 +156,7 @@ public class GameAI {
         return 0;
     }
 
-    int calculateScore(int aiScore, int moreMoves){
+    public static int calculateScore(int aiScore, int moreMoves){
         int moveScore = 4 - moreMoves;
         if(aiScore==0){
             return 0;
@@ -175,7 +175,7 @@ public class GameAI {
 
     //Evaluate board favorableness for AI
     //Hueristic
-    public int evaluateBoard(GameEnvironment gameEnvironment){
+    public static int evaluateBoard(GameEnvironment gameEnvironment){
 
         int aiScore=1;
         int score=0;
@@ -339,7 +339,7 @@ public class GameAI {
         return score;
     }
 
-    public int minimax(int depth, int turn, int alpha, int beta){
+    public static int minimax(int depth, int turn, int alpha, int beta){
 
         if(beta<=alpha){
             if(turn == 1)
@@ -381,7 +381,10 @@ public class GameAI {
                     System.out.println("Score for location "+j+" = "+currentScore);
                     if(currentScore > maxScore)nextMoveSpot = j;
                     if(currentScore == Integer.MAX_VALUE/2){
-                        gameEnvironment.undoLastMove(j);break;}
+                        gameEnvironment.undoLastMove(j);
+
+                        break;
+                    }
                 }
 
                 maxScore = Math.max(currentScore, maxScore);
@@ -401,7 +404,7 @@ public class GameAI {
         return turn==1?maxScore:minScore;
     }
 
-    public int getAIMove(){
+    public static int getAIMove(){
         nextMoveSpot= -1;
         minimax(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return nextMoveSpot;

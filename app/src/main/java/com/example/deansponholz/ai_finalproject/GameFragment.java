@@ -44,7 +44,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     private ImageView arrowRight_one, arrowRight_two, arrowRight_three;
     private TextView textview_play, textview_settings, textview_instruction, textview_statistics;
 
-    private AlertDialog alertRestart, alertDifficulty, alertFirstMove;
+    private AlertDialog alertRestart, alertFirstMove;
     private int instruction_flag = 1;
 
 
@@ -90,9 +90,11 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         AlertDialog.Builder builderRestart = alertFunctionRestart(root);
         alertRestart = builderRestart.create();
         alertRestart.setCanceledOnTouchOutside(false);
-        AlertDialog.Builder builderDifficulty = alertFunctionDifficulty(root);
-        alertDifficulty = builderDifficulty.create();
-        alertDifficulty.setCanceledOnTouchOutside(false);
+
+
+        AlertDialog.Builder builderFirstMove = alertFunctionMoveFirst(root);
+        alertFirstMove = builderFirstMove.create();
+        alertFirstMove.setCanceledOnTouchOutside(false);
 
         //Buttons
         instructionsButton = (ImageButton) root.findViewById(R.id.button_instructions);
@@ -101,8 +103,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDifficulty.show();
-                //alertFirstMove.show();
+                alertFirstMove.show();
             }
         });
         restartButton = (ImageButton) root.findViewById(R.id.button_settings);
@@ -121,9 +122,13 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         dropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (gameEnvironment.dropPiece(moveFlag, 2) == true){
 
-                if (gameEnvironment.dropPiece(moveFlag, 1) == true){
+
+                    gameEnvironment.updateUI();
                     textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
+                    //gameEnvironment.dropPiece(GameAI.getAIMove(), 1);
+
                 }
                 else {
                     Toast.makeText(getActivity(), "Move Not Allowed!!!",
@@ -343,7 +348,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         });
     }
 
-    public AlertDialog.Builder alertFunctionRestart(View root){
+    public AlertDialog.Builder alertFunctionRestart(View root) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
 
@@ -357,11 +362,11 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                 GameEnvironment.clearBoard();
                 textview_statistics.setText("");
+                playButton.setClickable(true);
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
             }
         });
-
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
             @Override
@@ -372,54 +377,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 system_ui_manager.hideStatusBar(getActivity());
             }
         });
-
-        return builder;
-
-    }
-
-    //This is where the game begins
-    public AlertDialog.Builder alertFunctionDifficulty(final View root){
-
-        //following code will be in your activity.java file
-        final CharSequence[] items = {" Easy "," Medium "," Hard "};
-        // arraylist to keep the selected items
-        final ArrayList seletedItems=new ArrayList();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-        builder.setTitle("Select The Difficulty Level");
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d("Difficulty option", Integer.toString(which));
-            }
-        });
-        // Set the action buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                //  Your code when user clicked on OK
-                //  You can write the code  to save the selected item here
-
-                AlertDialog.Builder builderMoveFirst = alertFunctionMoveFirst(root);
-                alertFirstMove = builderMoveFirst.create();
-                alertFirstMove.setCanceledOnTouchOutside(false);
-                alertFirstMove.show();
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                //  Your code when user clicked on Cancel
-                system_ui_manager.hideStatusBar(getActivity());
-            }
-        });
-
         return builder;
     }
-
-
 
     public AlertDialog.Builder alertFunctionMoveFirst(View root){
 
@@ -441,7 +400,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                 gameEnvironment = new GameEnvironment();
                 GameAI gameAI = new GameAI(gameEnvironment);
-                //gameAI.playAgainstAIConsole();
 
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
@@ -459,8 +417,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 //Start game
                 gameEnvironment = new GameEnvironment();
                 GameAI gameAI = new GameAI(gameEnvironment);
-                //gameAI.playAgainstAIConsole();
-
+                gameEnvironment.dropPiece(3, 1);
+                textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
             }
