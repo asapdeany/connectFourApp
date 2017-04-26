@@ -22,10 +22,10 @@ public class GameAI {
         this.gameEnvironment = gameEnvironment;
     }
 
-    public void letHumanMove(){
+    public static void letHumanMove(int moveFlag){
 
         //Grab move from radioButtons
-        int move = GameFragment.moveFlag;
+        int move = moveFlag;
         Log.v("Move Flag", Integer.toString(move));
 
         if (move < 0) {
@@ -37,7 +37,9 @@ public class GameAI {
         }
 
         //Assume 2 is the opponent
-        gameEnvironment.dropPiece(move-1, (byte)2);
+        gameEnvironment.dropPiece(move, (byte)2);
+        System.out.println("move" + move +"has been dropped");
+        //gameEnvironment.updateUI();
     }
 
     //Game Result -
@@ -411,6 +413,7 @@ public class GameAI {
     }
 
 
+    /*
     public void playAgainstAIConsole(){
 
         gameEnvironment.updateUI();
@@ -435,6 +438,7 @@ public class GameAI {
         }
 
     }
+    */
 
 
 }

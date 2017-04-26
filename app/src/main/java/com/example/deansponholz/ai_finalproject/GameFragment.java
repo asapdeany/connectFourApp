@@ -122,18 +122,65 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         dropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //gameEnvironment.dropPiece(moveFlag, 2);
+                GameAI.letHumanMove(moveFlag);
+                textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
+                gameEnvironment.updateUI();
+
+                int gameResult = GameAI.gameResult(gameEnvironment);
+                if(gameResult==1){
+                    System.out.println("AI Wins!");
+                    return;
+                }
+                else if(gameResult==2){
+                    System.out.println("You Win!");
+                    return;
+                }
+                else if(gameResult==0){
+                    System.out.println("Draw!");
+                    return;
+                }
+
+                int aiMove = GameAI.getAIMove();
+                Log.d("AI MOVE???", Integer.toString(aiMove));
+                gameEnvironment.dropPiece(aiMove, 1);
+                textview_statistics.append((("AI Move at Column: ") + aiMove) + "\n" );
+                gameEnvironment.updateUI();
+                gameResult = GameAI.gameResult(gameEnvironment);
+                if(gameResult==1){
+                    System.out.println("AI Wins!");
+                    return;
+                }
+                else if(gameResult==2){
+                    System.out.println("You Win!");
+                    return;
+                }
+                else if(gameResult==0){
+                    System.out.println("Draw!");
+                    return;
+                }
+
+
+                //gameEnvironment.updateUI();
+
+
+
+
+                //gameEnvironment.updateUI();
+                /*
                 if (gameEnvironment.dropPiece(moveFlag, 2) == true){
 
 
                     gameEnvironment.updateUI();
                     textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
-                    //gameEnvironment.dropPiece(GameAI.getAIMove(), 1);
+                    gameEnvironment.dropPiece(GameAI.getAIMove(), 1);
 
                 }
                 else {
                     Toast.makeText(getActivity(), "Move Not Allowed!!!",
                             Toast.LENGTH_SHORT).show();
                 }
+                */
             }
         });
 
@@ -416,9 +463,12 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                 //Start game
                 gameEnvironment = new GameEnvironment();
-                GameAI gameAI = new GameAI(gameEnvironment);
                 gameEnvironment.dropPiece(3, 1);
+
                 textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
+
+
+
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
             }

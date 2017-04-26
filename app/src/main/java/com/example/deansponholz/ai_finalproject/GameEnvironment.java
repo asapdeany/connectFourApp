@@ -17,7 +17,7 @@ public class GameEnvironment {
 
 
     //game board with 6x7 open spaces
-    static byte[][] gameGrid = new byte[6][7];
+    public static byte[][] gameGrid = new byte[6][7];
 
 
     //constructor - Initializes byte array
@@ -38,7 +38,7 @@ public class GameEnvironment {
     public boolean isMoveLegal(int column){
 
         if (gameGrid[0][column] == 0){
-            Log.d("Legal?", "move is LEGAL");
+            //Log.d("Legal?", "move is LEGAL");
             return true;
         }
 
@@ -57,6 +57,7 @@ public class GameEnvironment {
         for (int i = 5; i >= 0; i--){
             if(gameGrid[i][column] == 0){
                 gameGrid[i][column] = (byte) player;
+                updateUI();
                 return true;
             }
         }
@@ -64,9 +65,11 @@ public class GameEnvironment {
     }
 
     public static void undoLastMove(int column){
+        updateUI();
         for(int i=0; i < 5; i++){
             if(gameGrid[i][column] != 0){
                 gameGrid[i][column] = 0;
+                updateUI();
                 break;
             }
         }
@@ -96,9 +99,9 @@ public class GameEnvironment {
                 ImageView imageView = GameFragment.boardList[i][k];
                 //if this, that
 
-                if (gameGrid[i][k] == 0){
-                    imageView.setImageResource(R.drawable.token_shape_empty);
-                }
+                //if (gameGrid[i][k] == 0){
+                  //  imageView.setImageResource(R.drawable.token_shape_empty);
+                //}
                 if (gameGrid[i][k] == 1){
                     imageView.setImageResource(R.drawable.token_shape_red);
                 }
