@@ -18,13 +18,10 @@ public class GameEnvironment {
 
     //game board with 6x7 open spaces
     static byte[][] gameGrid = new byte[6][7];
-    String gameBoard = new String();
 
 
-    ImageView imageView;
-    //constructor
+    //constructor - Initializes byte array
     public GameEnvironment(){
-
 
         //initialize game board
         gameGrid = new byte[][]{
@@ -37,25 +34,37 @@ public class GameEnvironment {
         };
     }
 
+
     public boolean isMoveLegal(int column){
-        return gameGrid[0][column] == 0;
+
+        if (gameGrid[0][column] == 0){
+            Log.d("Legal?", "move is LEGAL");
+            return true;
+        }
+
+        else {
+            return false;
+        }
     }
 
     public boolean dropPiece(int column, int player){
+
         if (isMoveLegal(column) == false){
-            System.out.println("Move not allowed!");
+            Log.d("dropPiece", "Move Not Allowed!");
             return false;
         }
-        for (int i = 5; i >= 0; --i){
+
+        for (int i = 5; i >= 0; i--){
             if(gameGrid[i][column] == 0){
                 gameGrid[i][column] = (byte) player;
+                updateUI();
                 return true;
             }
         }
         return false;
     }
 
-    public void undoLastMove(int column){
+    public static void undoLastMove(int column){
         for(int i=0; i < 5; i++){
             if(gameGrid[i][column] != 0){
                 gameGrid[i][column] = 0;
@@ -63,12 +72,24 @@ public class GameEnvironment {
             }
         }
     }
+    public static void clearBoard(){
+        //initialize game board
+        gameGrid = new byte[][]{
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0,},
+        };
+        updateUI();
+    }
 
 
     // TODO: 4/11/17 - update UI
     //display game-board to Console(for now)
 
-    public void updateUI(){
+    public static void updateUI(){
         System.out.println("---------------");
         for (int i = 0; i <= 5; i++){
             for (int k = 0; k <= 6; k++){

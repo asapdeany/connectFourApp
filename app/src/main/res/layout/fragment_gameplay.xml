@@ -8,17 +8,6 @@
     android:background="@drawable/majors_room_scene"
     android:clickable="false">
 
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gameBoard_tv"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="36sp"
-        android:fontFamily="cursive"
-        android:textColor="@android:color/background_light" />
-
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -86,15 +75,6 @@
             android:buttonTint="@android:color/black"
             android:layout_marginRight="22dp"/>
     </RadioGroup>
-
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/drop_button"
-        android:id="@+id/button_dropbutton"
-        android:layout_above="@+id/radioGroup_gameplay"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp" />
 
     <ImageButton
         android:layout_width="35dp"
@@ -200,52 +180,6 @@
         android:layout_alignTop="@+id/arrowright_two"
         android:layout_alignStart="@+id/textview_play" />
 
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:srcCompat="@drawable/undo_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button_undo"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent" />
-
-    <ImageView
-        app:srcCompat="@drawable/bluearrow_right"
-        android:id="@+id/arrow_undo"
-        android:layout_height="50dp"
-        android:layout_width="50dp"
-        android:layout_alignBottom="@+id/button_undo"
-        android:layout_alignStart="@+id/arrowright_one"
-        android:visibility="invisible" />
-
-    <TextView
-        android:text="Undo Last Move"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textview_undo"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="14sp"
-        android:fontFamily="monospace"
-        android:layout_alignTop="@+id/arrow_undo"
-        android:layout_alignStart="@+id/textview_play"
-        android:layout_marginTop="7dp"
-        android:paddingTop="8dp"
-        android:visibility="invisible" />
-
-    <TextView
-        android:text="stats\nstats\nstats\nstats\nstats\nstats\nstats\nstats\nstats\nstats\nstats\nstats\nstats"
-        android:id="@+id/textview_statistics"
-        android:layout_width="100dp"
-        android:maxLines="10"
-        android:scrollbars="vertical"
-        android:layout_alignBaseline="@+id/textview_play"
-        android:layout_alignBottom="@+id/textview_play"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp"
-        android:layout_height="150dp"
-        android:background="@android:color/transparent" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -272,7 +206,8 @@
         android:id="@+id/iv_13"
         android:layout_marginLeft="-2dp"
         android:layout_alignTop="@+id/iv_12"
-        android:layout_alignStart="@+id/button_dropbutton" />
+        android:layout_toStartOf="@+id/iv_14"
+        android:layout_marginEnd="11dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -288,25 +223,25 @@
         app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_15"
         android:layout_alignTop="@+id/iv_14"
-        android:layout_alignEnd="@+id/button_dropbutton"
-        android:layout_marginRight="-2dp" />
+        android:layout_alignEnd="@+id/textview_instruction"
+        android:layout_marginEnd="3dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_16"
         android:layout_alignTop="@+id/iv_15"
-        android:layout_toEndOf="@+id/textview_play" />
+        android:layout_toEndOf="@+id/textview_play"
+        app:srcCompat="@drawable/token_shape_empty" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_17"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="11dp"
         android:layout_alignTop="@+id/iv_16"
-        android:layout_alignStart="@+id/textview_statistics" />
+        android:layout_toEndOf="@+id/iv_16" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -593,5 +528,30 @@
         android:id="@+id/iv_67"
         android:layout_alignTop="@+id/iv_66"
         android:layout_alignStart="@+id/iv_57" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/drop_button"
+        android:id="@+id/button_dropbutton"
+        android:visibility="invisible"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/textview_instruction" />
+
+    <TextView
+        android:id="@+id/textview_statistics"
+        android:scrollbars="vertical"
+        android:background="@android:color/transparent"
+        android:layout_width="250dp"
+        android:visibility="invisible"
+        android:scrollbarThumbVertical="@android:color/black"
+        android:textColor="@android:color/black"
+        android:gravity="bottom"
+        android:layout_height="140dp"
+        android:layout_marginBottom="9dp"
+        android:layout_above="@+id/radioGroup_gameplay"
+        android:layout_toEndOf="@+id/iv_62" />
 
 </RelativeLayout>

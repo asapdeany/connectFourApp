@@ -14,7 +14,10 @@ public class System_UI_Manager {
     Integer uiOptions;
     public System_UI_Manager(Activity activity){
 
+        hideStatusBar(activity);
 
+    }
+    public void hideStatusBar(Activity activity){
         decorView = activity.getWindow().getDecorView();
         uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);

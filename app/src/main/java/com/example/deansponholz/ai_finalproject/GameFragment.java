@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.security.Provider;
@@ -34,17 +35,18 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     private RadioGroup radioGroup;
     private System_UI_Manager system_ui_manager;
-    static int moveFlag = -1;
+    static int moveFlag = 0;
     static boolean moveFirst, gameStarted, moveChosen;
 
 
-    private ImageButton instructionsButton, playButton, restartButton, undoButton, dropButton;
+    private ImageButton instructionsButton, playButton, restartButton, dropButton;
 
-    private ImageView arrowRight_one, arrowRight_two, arrowRight_three, arrow_undo;
-    private TextView textview_play, textview_settings, textview_instruction, textview_undo, textview_statistics;
+    private ImageView arrowRight_one, arrowRight_two, arrowRight_three;
+    private TextView textview_play, textview_settings, textview_instruction, textview_statistics;
 
     private AlertDialog alertRestart, alertDifficulty, alertFirstMove;
     private int instruction_flag = 1;
+
 
     ImageView iv_11, iv_12, iv_13, iv_14, iv_15, iv_16, iv_17,
             iv_21, iv_22,iv_23, iv_24, iv_25, iv_26, iv_27,
@@ -56,6 +58,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     static ImageView[][] boardList;
 
     GameEnvironment gameEnvironment;
+
+    String statistics_moves = new String();
 
 
     @Override
@@ -73,13 +77,12 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         arrowRight_one = (ImageView) root.findViewById(R.id.arrowright_one);
         arrowRight_two = (ImageView) root.findViewById(R.id.arrowright_two);
         arrowRight_three = (ImageView) root.findViewById(R.id.arrowright_three);
-        arrow_undo = (ImageView) root.findViewById(R.id.arrow_undo);
+
 
         //textViews
         textview_play = (TextView) root.findViewById(R.id.textview_play);
         textview_instruction = (TextView) root.findViewById(R.id.textview_instruction);
         textview_settings = (TextView) root.findViewById(R.id.textview_settings);
-        textview_undo = (TextView) root.findViewById(R.id.textview_undo);
         textview_statistics = (TextView) root.findViewById(R.id.textview_statistics);
         textview_statistics.setMovementMethod(new ScrollingMovementMethod());
 
@@ -106,22 +109,26 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                //ToDo - clear gameboard
+
                 alertRestart.show();
             }
         });
 
-        undoButton = (ImageButton) root.findViewById(R.id.button_undo);
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //undo From GameEnvironment
-            }
-        });
         dropButton = (ImageButton) root.findViewById(R.id.button_dropbutton);
         dropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                if (gameEnvironment.dropPiece(moveFlag, 1) == true){
+                    textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
+                }
+                else {
+                    Toast.makeText(getActivity(), "Move Not Allowed!!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -139,37 +146,37 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         switch(checkedId) {
             case R.id.radioButton:
                 Log.d("onCheckChanged", Integer.toString(7));
-                moveFlag = 7;
+                moveFlag = 6;
                 moveChosen = true;
                 break;
             case R.id.radioButton2:
                 Log.d("onCheckChanged", Integer.toString(6));
-                moveFlag = 6;
+                moveFlag = 5;
                 moveChosen = true;
                 break;
             case R.id.radioButton3:
                 Log.d("onCheckChanged", Integer.toString(5));
-                moveFlag = 5;
+                moveFlag = 4;
                 moveChosen = true;
                 break;
             case R.id.radioButton4:
                 Log.d("onCheckChanged", Integer.toString(4));
-                moveFlag = 4;
+                moveFlag = 3;
                 moveChosen = true;
                 break;
             case R.id.radioButton5:
                 Log.d("onCheckChanged", Integer.toString(3));
-                moveFlag = 3;
+                moveFlag = 2;
                 moveChosen = true;
                 break;
             case R.id.radioButton6:
                 Log.d("onCheckChanged", Integer.toString(2));
-                moveFlag = 2;
+                moveFlag = 1;
                 moveChosen = true;
                 break;
             case R.id.radioButton7:
                 Log.d("onCheckChanged", Integer.toString(1));
-                moveFlag = 1;
+                moveFlag = 0;
                 moveChosen = true;
                 break;
         }
@@ -297,9 +304,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                     arrowRight_three.clearAnimation();
                     arrowRight_three.setVisibility(View.INVISIBLE);
 
-                    arrow_undo.clearAnimation();
-                    arrow_undo.setVisibility(View.INVISIBLE);
-
                     textview_play.clearAnimation();
                     textview_play.setVisibility(View.INVISIBLE);
 
@@ -309,8 +313,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                     textview_instruction.clearAnimation();
                     textview_instruction.setVisibility(View.INVISIBLE);
 
-                    textview_undo.clearAnimation();
-                    textview_undo.setVisibility(View.INVISIBLE);
                     instruction_flag = 1;
                 }
                 else if (instruction_flag == 1){
@@ -324,9 +326,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                     arrowRight_three.startAnimation(myFadeInAnimation);
                     arrowRight_three.setVisibility(View.VISIBLE);
 
-                    arrow_undo.startAnimation(myFadeInAnimation);
-                    arrow_undo.setVisibility(View.VISIBLE);
-
                     textview_play.startAnimation(myFadeInAnimation);
                     textview_play.setVisibility(View.VISIBLE);
 
@@ -335,9 +334,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                     textview_instruction.startAnimation(myFadeInAnimation);
                     textview_instruction.setVisibility(View.VISIBLE);
-
-                    textview_undo.startAnimation(myFadeInAnimation);
-                    textview_undo.setVisibility(View.VISIBLE);
 
                     instruction_flag = 0;
                 }
@@ -359,8 +355,10 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
 
+                GameEnvironment.clearBoard();
+                textview_statistics.setText("");
                 dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
+                system_ui_manager.hideStatusBar(getActivity());
             }
         });
 
@@ -371,7 +369,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                 // Do nothing
                 dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
+                system_ui_manager.hideStatusBar(getActivity());
             }
         });
 
@@ -414,7 +412,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //  Your code when user clicked on Cancel
-
+                system_ui_manager.hideStatusBar(getActivity());
             }
         });
 
@@ -433,14 +431,20 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
+
+
+                playButton.setClickable(false);
+                //Start Game
+
+                dropButton.setVisibility(View.VISIBLE);
+                textview_statistics.setVisibility(View.VISIBLE);
 
                 gameEnvironment = new GameEnvironment();
                 GameAI gameAI = new GameAI(gameEnvironment);
-                gameAI.playAgainstAIConsole();
+                //gameAI.playAgainstAIConsole();
 
                 dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
+                system_ui_manager.hideStatusBar(getActivity());
             }
         });
 
@@ -448,15 +452,17 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                dropButton.setVisibility(View.VISIBLE);
+                textview_statistics.setVisibility(View.VISIBLE);
+
                 //Start game
                 gameEnvironment = new GameEnvironment();
                 GameAI gameAI = new GameAI(gameEnvironment);
-                gameAI.playAgainstAIConsole();
-
-
+                //gameAI.playAgainstAIConsole();
 
                 dialog.dismiss();
-                system_ui_manager = new System_UI_Manager(getActivity());
+                system_ui_manager.hideStatusBar(getActivity());
             }
         });
 
@@ -473,7 +479,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         b.displayBoard();
 
         while(true){
-            letOpponentMove();
+            letHumanMove();
             b.displayBoard();
 
             int gameResult = gameResult(b);
@@ -495,7 +501,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     }
     @Override
     public void onResume() {
-        system_ui_manager = new System_UI_Manager(getActivity());
+        system_ui_manager.hideStatusBar(getActivity());
         super.onResume();
     }
 }

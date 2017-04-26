@@ -1,9 +1,6 @@
 package com.example.deansponholz.ai_finalproject;
 
 import android.util.Log;
-import android.widget.TextView;
-
-import java.util.Scanner;
 
 /**
  * Created by deansponholz on 4/8/17.
@@ -11,28 +8,31 @@ import java.util.Scanner;
 
 public class GameAI {
 
+    //Local GameVironment instance
     private GameEnvironment gameEnvironment;
-    private Scanner scanner;
+
+    //
     private int nextMoveSpot = 1;
+    //Depth max for Minimax
     private int depthMax = 9;
 
 
+    //Constructor - creates instance of GameAI
     public GameAI(GameEnvironment gameEnvironment){
         this.gameEnvironment = gameEnvironment;
-
-
-        //scan = new Scanner(System.in);
     }
 
-    public void letOpponentMove(){
+    public void letHumanMove(){
 
+        //Grab move from radioButtons
         int move = GameFragment.moveFlag;
-        System.out.println(move);
+        Log.v("Move Flag", Integer.toString(move));
 
         if (move < 0) {
 
-            while (!gameEnvironment.isMoveLegal(move - 1)) {
-                System.out.println("Invalid move.\n\nYour move (1-7): ");
+            //check if the Move is legal
+            while (gameEnvironment.isMoveLegal(move - 1) == false) {
+                Log.v("Move Alert", "Invalid Move");
             }
         }
 
@@ -40,8 +40,9 @@ public class GameAI {
         gameEnvironment.dropPiece(move-1, (byte)2);
     }
 
-    //Game Result
-    //Returns Either 1, 2 or 0
+    //Game Result -
+    //Investigate a game state and see whether it terminal
+    //Returns Either 1, 2, 0
     public static int gameResult(GameEnvironment gameEnvironment){
         int aiScore = 0;
         int humanScore = 0;
@@ -50,7 +51,7 @@ public class GameAI {
                 if(gameEnvironment.gameGrid[i][j]==0){
                     continue;
                 }
-                //Checking cells to the right
+                //Checking cells to the right of current location
                 if(j<=3){
                     for(int k=0;k<4;k++){
                         if(gameEnvironment.gameGrid[i][j+k]==1){
@@ -62,18 +63,18 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("AI", "AI");
+                        Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("HUMAN", "HUMAN");
+                        Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
                     humanScore = 0;
                 }
 
-                //Checking cells up
+                //Checking cells up of current location
                 if(i>=3){
                     for(int k=0;k<4;++k){
                         if(gameEnvironment.gameGrid[i-k][j]==1){
@@ -85,18 +86,18 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("AI", "AI");
+                        Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("HUMAN", "HUMAN");
+                        Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
                     humanScore = 0;
                 }
 
-                //Checking diagonal up-right
+                //Checking diagonal up-right of current location
                 if(j<=3 && i>= 3){
                     for(int k=0;k<4;++k){
                         if(gameEnvironment.gameGrid[i-k][j+k]==1){
@@ -109,18 +110,18 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("AI", "AI");
+                        Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("HUMAN", "HUMAN");
+                        Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
                     humanScore = 0;
                 }
 
-                //Checking diagonal up-left
+                //Checking diagonal up-left of current location
                 if(j>=3 && i>=3){
                     for(int k=0;k<4;++k){
                         if(gameEnvironment.gameGrid[i-k][j-k]==1){
@@ -132,11 +133,11 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("AI", "AI");
+                        Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("HUMAN", "HUMAN");
+                        Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
@@ -173,6 +174,7 @@ public class GameAI {
     }
 
     //Evaluate board favorableness for AI
+    //Hueristic
     public int evaluateBoard(GameEnvironment gameEnvironment){
 
         int aiScore=1;
@@ -189,7 +191,11 @@ public class GameAI {
                 if(j<=3){
                     for(k=1;k<4;++k){
                         if(gameEnvironment.gameGrid[i][j+k]==1)aiScore++;
-                        else if(gameEnvironment.gameGrid[i][j+k]==2){aiScore=0;blanks = 0;break;}
+                        else if(gameEnvironment.gameGrid[i][j+k]==2){
+                            aiScore=0;
+                            blanks = 0;
+                            break;
+                        }
                         else blanks++;
                     }
 
@@ -409,7 +415,7 @@ public class GameAI {
         gameEnvironment.updateUI();
 
         while(true){
-            letOpponentMove();
+            letHumanMove();
             gameEnvironment.updateUI();
 
             int gameResult = gameResult(gameEnvironment);
