@@ -65,11 +65,9 @@ public class GameEnvironment {
     }
 
     public static void undoLastMove(int column){
-        updateUI();
         for(int i=0; i < 5; i++){
             if(gameGrid[i][column] != 0){
                 gameGrid[i][column] = 0;
-                updateUI();
                 break;
             }
         }

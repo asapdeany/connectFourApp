@@ -86,6 +86,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         textview_statistics = (TextView) root.findViewById(R.id.textview_statistics);
         textview_statistics.setMovementMethod(new ScrollingMovementMethod());
 
+        initializeGameBoard(root);
+
         //Alert Dialogs
         AlertDialog.Builder builderRestart = alertFunctionRestart(root);
         alertRestart = builderRestart.create();
@@ -123,69 +125,9 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(View view) {
                 //gameEnvironment.dropPiece(moveFlag, 2);
-                GameAI.letHumanMove(moveFlag);
                 textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
-                gameEnvironment.updateUI();
-
-                int gameResult = GameAI.gameResult(gameEnvironment);
-                if(gameResult==1){
-                    System.out.println("AI Wins!");
-                    return;
-                }
-                else if(gameResult==2){
-                    System.out.println("You Win!");
-                    return;
-                }
-                else if(gameResult==0){
-                    System.out.println("Draw!");
-                    return;
-                }
-
-                int aiMove = GameAI.getAIMove();
-                Log.d("AI MOVE???", Integer.toString(aiMove));
-                gameEnvironment.dropPiece(aiMove, 1);
-                textview_statistics.append((("AI Move at Column: ") + aiMove) + "\n" );
-                gameEnvironment.updateUI();
-                gameResult = GameAI.gameResult(gameEnvironment);
-                if(gameResult==1){
-                    System.out.println("AI Wins!");
-                    return;
-                }
-                else if(gameResult==2){
-                    System.out.println("You Win!");
-                    return;
-                }
-                else if(gameResult==0){
-                    System.out.println("Draw!");
-                    return;
-                }
-
-
-                //gameEnvironment.updateUI();
-
-
-
-
-                //gameEnvironment.updateUI();
-                /*
-                if (gameEnvironment.dropPiece(moveFlag, 2) == true){
-
-
-                    gameEnvironment.updateUI();
-                    textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
-                    gameEnvironment.dropPiece(GameAI.getAIMove(), 1);
-
-                }
-                else {
-                    Toast.makeText(getActivity(), "Move Not Allowed!!!",
-                            Toast.LENGTH_SHORT).show();
-                }
-                */
             }
         });
-
-        initializeGameBoard(root);
-        //textview_statistics.setText(Integer.toString(boardList.size()));
 
         return root;
     }
@@ -344,7 +286,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(View v) {
 
-
                 if (instruction_flag == 0){
 
                     arrowRight_one.clearAnimation();
@@ -389,8 +330,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                     instruction_flag = 0;
                 }
-
-
             }
         });
     }
@@ -438,9 +377,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
             public void onClick(DialogInterface dialog, int which) {
 
-
+                //cant start new instance during gameplay
                 playButton.setClickable(false);
-                //Start Game
 
                 dropButton.setVisibility(View.VISIBLE);
                 textview_statistics.setVisibility(View.VISIBLE);
@@ -458,14 +396,17 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                //cant start new instance during gameplay
+                playButton.setClickable(false);
+
                 dropButton.setVisibility(View.VISIBLE);
                 textview_statistics.setVisibility(View.VISIBLE);
 
                 //Start game
-                gameEnvironment = new GameEnvironment();
-                gameEnvironment.dropPiece(3, 1);
+                //gameEnvironment = new GameEnvironment();
+                //gameEnvironment.dropPiece(3, 1);
 
-                textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
+                //textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
 
 
 
@@ -480,9 +421,11 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     public void startGame(){
 
-
         /*
-        b.displayBoard();
+
+        GameEnvironment gameEnvironment = new GameEnvironment();
+
+        gameEnvironment.updateUI();
         b.placeMove(3, 1);
         b.displayBoard();
 
@@ -504,6 +447,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         }
         */
+
 
 
     }
