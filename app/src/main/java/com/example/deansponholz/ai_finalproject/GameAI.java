@@ -22,33 +22,23 @@ public class GameAI {
 
     //Constructor - creates instance of GameAI
     public GameAI(GameEnvironment gameEnvironment){
+
         this.gameEnvironment = gameEnvironment;
+
     }
 
     public void letHumanMove(){
 
-        /*
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Your move (1-7): ");
-        int move = scan.nextInt();
-        while(move<1 || move > 7 || !gameEnvironment.isMoveLegal(move-1)){
-            System.out.println("Invalid move.\n\nYour move (1-7): ");
-            move = scan.nextInt();
-        }
-        */
+        int move = GameFragment.moveFlag;
 
-        //Assume 2 is the opponent
-
-        gameEnvironment.dropPiece(2, (byte)2);
-        /*
-        int move = moveFlag;
         if (GameFragment.moveChosen == true) {
             gameEnvironment.dropPiece(move, (byte) 2);
             GameFragment.moveChosen = false;
-            GameFragment.dropButton.setVisibility(View.INVISIBLE);
-            GameFragment.radioGroup.setVisibility(View.INVISIBLE);
+            //GameFragment.dropButton.setVisibility(View.INVISIBLE);
+            //GameFragment.radioGroup.setVisibility(View.INVISIBLE);
+
         }
-        */
+
     }
 
     //Game Result -
@@ -351,6 +341,8 @@ public class GameAI {
 
                 if (depth == 0) {
                     System.out.println("Score for location " + j + " = " + currentScore);
+
+                    GameFragment.textview_statistics.append("AI score for location " + j + " = " + currentScore + "\n");
                     if (currentScore > maxScore) nextMoveSpot = j;
                     if (currentScore == Integer.MAX_VALUE / 2) {
                         gameEnvironment.undoLastMove(j);
@@ -381,7 +373,7 @@ public class GameAI {
     }
 
 
-
+/*
     public void startGame(){
 
 
@@ -406,13 +398,12 @@ public class GameAI {
             letHumanMove();
             gameEnvironment.updateUI();
 
-            System.out.println(getAIMove());
             int gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
 
-            
+
 
             gameEnvironment.dropPiece(getAIMove(), 1);
             gameEnvironment.updateUI();
@@ -421,10 +412,11 @@ public class GameAI {
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
             }
+        }
+*/
 
 
 
-    }
 
 
 

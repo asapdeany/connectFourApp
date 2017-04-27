@@ -536,22 +536,21 @@
         android:id="@+id/button_dropbutton"
         android:visibility="invisible"
         android:background="@android:color/transparent"
-        android:layout_marginTop="28dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/textview_instruction" />
+        android:layout_below="@+id/arrowright_one"
+        android:layout_toEndOf="@+id/iv_16" />
 
     <TextView
         android:id="@+id/textview_statistics"
         android:scrollbars="vertical"
         android:background="@android:color/transparent"
-        android:layout_width="250dp"
         android:visibility="invisible"
         android:scrollbarThumbVertical="@android:color/black"
-        android:textColor="@android:color/black"
         android:gravity="bottom"
-        android:layout_height="140dp"
-        android:layout_marginBottom="9dp"
-        android:layout_above="@+id/radioGroup_gameplay"
-        android:layout_toEndOf="@+id/iv_62" />
+        android:layout_width="300dp"
+        android:fontFamily="casual"
+        android:layout_height="170dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/radioGroup_gameplay"
+        android:layout_marginTop="6dp" />
 
 </RelativeLayout>

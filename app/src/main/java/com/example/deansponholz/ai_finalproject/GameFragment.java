@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +46,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     public static ImageButton dropButton;
 
     private ImageView arrowRight_one, arrowRight_two, arrowRight_three;
-    private TextView textview_play, textview_settings, textview_instruction, textview_statistics;
+    private TextView textview_play, textview_settings, textview_instruction;
+    public static TextView textview_statistics;
 
     private AlertDialog alertRestart, alertFirstMove;
     private int instruction_flag = 1;
@@ -122,10 +126,55 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             }
         });
 
+
         dropButton = (ImageButton) root.findViewById(R.id.button_dropbutton);
         dropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                gameEnvironment.dropPiece(moveFlag, 2);
+                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                appendColoredText(textview_statistics, ("HUMAN Move at Column: " + moveFlag + "\n" ), Color.rgb(255, 0, 255));
+                //textview_statistics.append((("HUMAN Move at Column: ") + moveFlag) + "\n" );
+                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                gameEnvironment.updateUI();
+
+                int gameResult = gameAI.gameResult(gameEnvironment);
+
+                if(gameResult==1){
+                    System.out.println("AI Wins!");
+                    //GAMEOVER
+                }
+                else if(gameResult==2){
+                    System.out.println("You Win!");
+                }
+                else if(gameResult==0){
+                    System.out.println("Draw!");
+                }
+
+                //LOCKUI
+
+                //AI RESPONSE
+                int move = gameAI.getAIMove();
+                gameEnvironment.dropPiece(move, 1);
+                textview_statistics.append("--------------------------" + "\n");
+                textview_statistics.append((("AI Move at Column: ") + move) + "\n" );
+                gameEnvironment.updateUI();
+
+                gameResult = gameAI.gameResult(gameEnvironment);
+
+                if(gameResult==1){
+                    System.out.println("AI Wins!");
+                    //GAMEOVER
+                }
+                else if(gameResult==2){
+                    System.out.println("You Win!");
+                }
+                else if(gameResult==0){
+                    System.out.println("Draw!");
+                }
+
 
                 /*
 
@@ -398,7 +447,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
                 gameEnvironment = new GameEnvironment();
                 gameAI = new GameAI(gameEnvironment);
-                gameAI.startGame();
+                //gameAI.startGame();
 
 
             }
@@ -425,15 +474,28 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 system_ui_manager.hideStatusBar(getActivity());
 
 
+                //start Game
                 gameEnvironment = new GameEnvironment();
                 gameAI = new GameAI(gameEnvironment);
-                gameAI.startGame();
+                gameEnvironment.dropPiece(3, 1);
+                gameEnvironment.updateUI();
+                textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
+
 
             }
         });
 
         return builder;
 
+    }
+
+    public static void appendColoredText(TextView tv, String text, int color) {
+        int start = tv.getText().length();
+        tv.append(text);
+        int end = tv.getText().length();
+
+        Spannable spannableText = (Spannable) tv.getText();
+        spannableText.setSpan(new ForegroundColorSpan(color), start, end, 0);
     }
 
     @Override
