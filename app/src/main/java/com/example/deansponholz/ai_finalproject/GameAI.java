@@ -15,7 +15,7 @@ public class GameAI {
     private GameEnvironment gameEnvironment;
 
     //
-    private int nextMoveSpot = 1;
+    private int nextMoveSpot = -1;
     //Depth max for Minimax
     private int depthMax = 9;
 
@@ -187,33 +187,29 @@ public class GameAI {
     }
 
     //Evaluate board favorableness for AI
-    //Hueristic
-    public int evaluateBoard(GameEnvironment gameEnvironment){
+    public int evaluateBoard(GameEnvironment gameEnvironment) {
 
-        int aiScore=1;
-        int score=0;
+        int aiScore = 1;
+        int score = 0;
         int blanks = 0;
-        int k=0, moreMoves=0;
-        for(int i=5;i>=0;--i){
-            for(int j=0;j<=6;++j){
+        int k = 0, moreMoves = 0;
+        for (int i = 5; i >= 0; --i) {
+            for (int j = 0; j <= 6; ++j) {
 
-                if(gameEnvironment.gameGrid[i][j]==0 ||gameEnvironment.gameGrid[i][j]==2){
-                    continue;
-                }
+                if (gameEnvironment.gameGrid[i][j] == 0 || gameEnvironment.gameGrid[i][j] == 2) continue;
 
-                if(j<=3){
-                    for(k=1;k<4;++k){
-                        if(gameEnvironment.gameGrid[i][j+k]==1)aiScore++;
-                        else if(gameEnvironment.gameGrid[i][j+k]==2){
-                            aiScore=0;
+                if (j <= 3) {
+                    for (k = 1; k < 4; ++k) {
+                        if (gameEnvironment.gameGrid[i][j + k] == 1) aiScore++;
+                        else if (gameEnvironment.gameGrid[i][j + k] == 2) {
+                            aiScore = 0;
                             blanks = 0;
                             break;
-                        }
-                        else blanks++;
+                        } else blanks++;
                     }
 
                     moreMoves = 0;
-                    if(blanks>0) {
+                    if (blanks > 0)
                         for (int c = 1; c < 4; ++c) {
                             int column = j + c;
                             for (int m = i; m <= 5; m++) {
@@ -221,129 +217,104 @@ public class GameAI {
                                 else break;
                             }
                         }
-                    }
 
-                    if(moreMoves!=0){
-                        score += calculateScore(aiScore, moreMoves);
-                    }
-                    aiScore=1;
+                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
+                    aiScore = 1;
                     blanks = 0;
                 }
 
-                if(i>=3){
-                    for(k=1;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j]==1){
-                            aiScore++;
-                        }
-                        else if(gameEnvironment.gameGrid[i-k][j]==2){
-                            aiScore=0;
+                if (i >= 3) {
+                    for (k = 1; k < 4; ++k) {
+                        if (gameEnvironment.gameGrid[i - k][j] == 1) aiScore++;
+                        else if (gameEnvironment.gameGrid[i - k][j] == 2) {
+                            aiScore = 0;
                             break;
                         }
                     }
                     moreMoves = 0;
 
-                    if(aiScore>0){
+                    if (aiScore > 0) {
                         int column = j;
-                        for(int m=i-k+1; m<=i-1;m++){
-                            if(gameEnvironment.gameGrid[m][column]==0){
-                                moreMoves++;
-                            }
+                        for (int m = i - k + 1; m <= i - 1; m++) {
+                            if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
                             else break;
                         }
                     }
-                    if(moreMoves!=0){
-                        score += calculateScore(aiScore, moreMoves);
-                    }
-                    aiScore=1;
+                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
+                    aiScore = 1;
                     blanks = 0;
                 }
 
-                if(j>=3){
-                    for(k=1;k<4;++k){
-                        if(gameEnvironment.gameGrid[i][j-k]==1){
-                            aiScore++;
-                        }
-                        else if(gameEnvironment.gameGrid[i][j-k]==2){
-                            aiScore=0; blanks=0;
+                if (j >= 3) {
+                    for (k = 1; k < 4; ++k) {
+                        if (gameEnvironment.gameGrid[i][j - k] == 1) aiScore++;
+                        else if (gameEnvironment.gameGrid[i][j - k] == 2) {
+                            aiScore = 0;
+                            blanks = 0;
                             break;
-                        }
-                        else blanks++;
+                        } else blanks++;
                     }
-                    moreMoves=0;
-                    if(blanks>0) {
+                    moreMoves = 0;
+                    if (blanks > 0)
                         for (int c = 1; c < 4; ++c) {
                             int column = j - c;
                             for (int m = i; m <= 5; m++) {
-                                if (gameEnvironment.gameGrid[m][column] == 0){
-                                    moreMoves++;
-                                }
+                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
                                 else break;
                             }
                         }
-                    }
 
-                    if(moreMoves!=0){
-                        score += calculateScore(aiScore, moreMoves);
-                    }
-                    aiScore=1;
+                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
+                    aiScore = 1;
                     blanks = 0;
                 }
 
-                if(j<=3 && i>=3){
-                    for(k=1;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j+k]==1){
-                            aiScore++;
-                        }
-                        else if(gameEnvironment.gameGrid[i-k][j+k]==2){
-                            aiScore=0;
-                            blanks=0;
-                            break;}
-                        else blanks++;
+                if (j <= 3 && i >= 3) {
+                    for (k = 1; k < 4; ++k) {
+                        if (gameEnvironment.gameGrid[i - k][j + k] == 1) aiScore++;
+                        else if (gameEnvironment.gameGrid[i - k][j + k] == 2) {
+                            aiScore = 0;
+                            blanks = 0;
+                            break;
+                        } else blanks++;
                     }
-                    moreMoves=0;
-                    if(blanks>0){
-                        for(int c=1;c<4;++c){
-                            int column = j+c, row = i-c;
-                            for(int m=row;m<=5;++m){
-                                if(gameEnvironment.gameGrid[m][column]==0){
-                                    moreMoves++;
-                                }
-                                else if(gameEnvironment.gameGrid[m][column]==1);
+                    moreMoves = 0;
+                    if (blanks > 0) {
+                        for (int c = 1; c < 4; ++c) {
+                            int column = j + c, row = i - c;
+                            for (int m = row; m <= 5; ++m) {
+                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
+                                else if (gameEnvironment.gameGrid[m][column] == 1) ;
                                 else break;
                             }
                         }
-                        if(moreMoves!=0) score += calculateScore(aiScore, moreMoves);
-                        aiScore=1;
+                        if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
+                        aiScore = 1;
                         blanks = 0;
                     }
                 }
 
-                if(i>=3 && j>=3){
-                    for(k=1;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j-k]==1){
-                            aiScore++;
-                        }
-                        else if(gameEnvironment.gameGrid[i-k][j-k]==2){
-                            aiScore=0;
-                            blanks=0;
+                if (i >= 3 && j >= 3) {
+                    for (k = 1; k < 4; ++k) {
+                        if (gameEnvironment.gameGrid[i - k][j - k] == 1) aiScore++;
+                        else if (gameEnvironment.gameGrid[i - k][j - k] == 2) {
+                            aiScore = 0;
+                            blanks = 0;
                             break;
-                        }
-                        else blanks++;
+                        } else blanks++;
                     }
-                    moreMoves=0;
-                    if(blanks>0){
-                        for(int c=1;c<4;++c){
-                            int column = j-c, row = i-c;
-                            for(int m=row;m<=5;++m){
-                                if(gameEnvironment.gameGrid[m][column]==0){
-                                    moreMoves++;
-                                }
-                                else if(gameEnvironment.gameGrid[m][column]==1);
+                    moreMoves = 0;
+                    if (blanks > 0) {
+                        for (int c = 1; c < 4; ++c) {
+                            int column = j - c, row = i - c;
+                            for (int m = row; m <= 5; ++m) {
+                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
+                                else if (gameEnvironment.gameGrid[m][column] == 1) ;
                                 else break;
                             }
                         }
-                        if(moreMoves!=0) score += calculateScore(aiScore, moreMoves);
-                        aiScore=1;
+                        if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
+                        aiScore = 1;
                         blanks = 0;
                     }
                 }
@@ -352,50 +323,36 @@ public class GameAI {
         return score;
     }
 
-    public int minimax(int depth, int turn, int alpha, int beta){
+    public int minimax(int depth, int turn, int alpha, int beta) {
 
-        if(beta<=alpha){
-            if(turn == 1)
-                return Integer.MAX_VALUE;
-            else {
-                return Integer.MIN_VALUE;
-            }
+        if (beta <= alpha) {
+            if (turn == 1) return Integer.MAX_VALUE;
+            else return Integer.MIN_VALUE;
         }
-
         int gameResult = gameResult(gameEnvironment);
 
-        if(gameResult==1){
-            return Integer.MAX_VALUE/2;
-        }
-        else if(gameResult==2){
-            return Integer.MIN_VALUE/2;
-        }
-        else if(gameResult==0){
-            return 0;
-        }
+        if (gameResult == 1) return Integer.MAX_VALUE / 2;
+        else if (gameResult == 2) return Integer.MIN_VALUE / 2;
+        else if (gameResult == 0) return 0;
 
-        if(depth==depthMax){
-            return evaluateBoard(gameEnvironment);
-        }
+        if (depth == depthMax) return evaluateBoard(gameEnvironment);
 
-        int maxScore=Integer.MIN_VALUE, minScore = Integer.MAX_VALUE;
+        int maxScore = Integer.MIN_VALUE, minScore = Integer.MAX_VALUE;
 
-        for(int j=0;j<=6;++j){
+        for (int j = 0; j <= 6; ++j) {
 
             int currentScore = 0;
 
-            if(!gameEnvironment.isMoveLegal(j)) continue;
+            if (!gameEnvironment.isMoveLegal(j)) continue;
 
-            if(turn==1){
+            if (turn == 1) {
                 gameEnvironment.dropPiece(j, 1);
-                currentScore = minimax(depth+1, 2, alpha, beta);
+                currentScore = minimax(depth + 1, 2, alpha, beta);
 
-                if(depth==0){
-                    System.out.println("Score for location "+j+" = "+currentScore);
-                    if(currentScore > maxScore){
-                        nextMoveSpot = j;
-                    }
-                    if(currentScore == Integer.MAX_VALUE/2){
+                if (depth == 0) {
+                    System.out.println("Score for location " + j + " = " + currentScore);
+                    if (currentScore > maxScore) nextMoveSpot = j;
+                    if (currentScore == Integer.MAX_VALUE / 2) {
                         gameEnvironment.undoLastMove(j);
                         break;
                     }
@@ -404,18 +361,17 @@ public class GameAI {
                 maxScore = Math.max(currentScore, maxScore);
 
                 alpha = Math.max(currentScore, alpha);
-            }
-            else if(turn==2){
+            } else if (turn == 2) {
                 gameEnvironment.dropPiece(j, 2);
-                currentScore = minimax(depth+1, 1, alpha, beta);
+                currentScore = minimax(depth + 1, 1, alpha, beta);
                 minScore = Math.min(currentScore, minScore);
 
                 beta = Math.min(currentScore, beta);
             }
             gameEnvironment.undoLastMove(j);
-            if(currentScore == Integer.MAX_VALUE || currentScore == Integer.MIN_VALUE) break;
+            if (currentScore == Integer.MAX_VALUE || currentScore == Integer.MIN_VALUE) break;
         }
-        return turn==1?maxScore:minScore;
+        return turn == 1 ? maxScore : minScore;
     }
 
     public int getAIMove(){
@@ -434,12 +390,14 @@ public class GameAI {
             gameEnvironment.updateUI();
             GameFragment.moveChosen = false;
 
+
         }
         else if (GameFragment.moveFirst == false) {
             gameEnvironment.updateUI();
             gameEnvironment.dropPiece(3, 1);
             gameEnvironment.updateUI();
         }
+
 
 
 
@@ -454,7 +412,7 @@ public class GameAI {
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
 
-            /*
+            
 
             gameEnvironment.dropPiece(getAIMove(), 1);
             gameEnvironment.updateUI();
@@ -462,9 +420,7 @@ public class GameAI {
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
-            */
-
-        }
+            }
 
 
 

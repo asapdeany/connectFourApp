@@ -56,7 +56,7 @@ public class GameEnvironment {
     }
 
     public void undoLastMove(int column){
-        for(int i=0; i < 5; i++){
+        for(int i=0; i <= 5; i++){
             if(gameGrid[i][column] != 0){
                 gameGrid[i][column] = 0;
                 break;
