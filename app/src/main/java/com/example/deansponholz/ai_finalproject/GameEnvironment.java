@@ -17,7 +17,7 @@ public class GameEnvironment {
 
 
     //game board with 6x7 open spaces
-    public static byte[][] gameGrid = new byte[6][7];
+    byte[][] gameGrid = new byte[6][7];
 
 
     //constructor - Initializes byte array
@@ -36,15 +36,7 @@ public class GameEnvironment {
 
 
     public boolean isMoveLegal(int column){
-
-        if (gameGrid[0][column] == 0){
-            //Log.d("Legal?", "move is LEGAL");
-            return true;
-        }
-
-        else {
-            return false;
-        }
+        return gameGrid[0][column]==0;
     }
 
     public boolean dropPiece(int column, int player){
@@ -54,17 +46,16 @@ public class GameEnvironment {
             return false;
         }
 
-        for (int i = 5; i >= 0; i--){
+        for (int i = 5; i >= 0; --i){
             if(gameGrid[i][column] == 0){
                 gameGrid[i][column] = (byte) player;
-                updateUI();
                 return true;
             }
         }
         return false;
     }
 
-    public static void undoLastMove(int column){
+    public void undoLastMove(int column){
         for(int i=0; i < 5; i++){
             if(gameGrid[i][column] != 0){
                 gameGrid[i][column] = 0;
@@ -72,7 +63,7 @@ public class GameEnvironment {
             }
         }
     }
-    public static void clearBoard(){
+    public void clearBoard(){
         //initialize game board
         gameGrid = new byte[][]{
                 {0, 0, 0, 0, 0, 0, 0,},
@@ -89,17 +80,16 @@ public class GameEnvironment {
     // TODO: 4/11/17 - update UI
     //display game-board to Console(for now)
 
-    public static void updateUI(){
+    public void updateUI(){
         System.out.println("---------------");
         for (int i = 0; i <= 5; i++){
             for (int k = 0; k <= 6; k++){
                 System.out.print(gameGrid[i][k] + " ");
                 ImageView imageView = GameFragment.boardList[i][k];
-                //if this, that
 
-                //if (gameGrid[i][k] == 0){
-                  //  imageView.setImageResource(R.drawable.token_shape_empty);
-                //}
+                if (gameGrid[i][k] == 0){
+                    imageView.setImageResource(R.drawable.token_shape_empty);
+                }
                 if (gameGrid[i][k] == 1){
                     imageView.setImageResource(R.drawable.token_shape_red);
                 }

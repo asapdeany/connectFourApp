@@ -1,6 +1,9 @@
 package com.example.deansponholz.ai_finalproject;
 
 import android.util.Log;
+import android.view.View;
+
+import java.util.Scanner;
 
 /**
  * Created by deansponholz on 4/8/17.
@@ -9,12 +12,12 @@ import android.util.Log;
 public class GameAI {
 
     //Local GameVironment instance
-    private static GameEnvironment gameEnvironment;
+    private GameEnvironment gameEnvironment;
 
     //
-    private static int nextMoveSpot = 1;
+    private int nextMoveSpot = 1;
     //Depth max for Minimax
-    private static int depthMax = 9;
+    private int depthMax = 9;
 
 
     //Constructor - creates instance of GameAI
@@ -22,30 +25,38 @@ public class GameAI {
         this.gameEnvironment = gameEnvironment;
     }
 
-    public static void letHumanMove(int moveFlag){
+    public void letHumanMove(){
 
-        //Grab move from radioButtons
-        int move = moveFlag;
-        Log.v("Move Flag", Integer.toString(move));
-
-        if (move < 0) {
-
-            //check if the Move is legal
-            while (gameEnvironment.isMoveLegal(move - 1) == false) {
-                Log.v("Move Alert", "Invalid Move");
-            }
+        /*
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Your move (1-7): ");
+        int move = scan.nextInt();
+        while(move<1 || move > 7 || !gameEnvironment.isMoveLegal(move-1)){
+            System.out.println("Invalid move.\n\nYour move (1-7): ");
+            move = scan.nextInt();
         }
+        */
 
         //Assume 2 is the opponent
-        gameEnvironment.dropPiece(move, (byte)2);
-        System.out.println("move" + move +"has been dropped");
-        //gameEnvironment.updateUI();
+
+        gameEnvironment.dropPiece(2, (byte)2);
+        /*
+        int move = moveFlag;
+        if (GameFragment.moveChosen == true) {
+            gameEnvironment.dropPiece(move, (byte) 2);
+            GameFragment.moveChosen = false;
+            GameFragment.dropButton.setVisibility(View.INVISIBLE);
+            GameFragment.radioGroup.setVisibility(View.INVISIBLE);
+        }
+        */
     }
 
     //Game Result -
     //Investigate a game state and see whether it terminal
     //Returns Either 1, 2, 0
-    public static int gameResult(GameEnvironment gameEnvironment){
+    public int gameResult(GameEnvironment gameEnvironment){
+
+
         int aiScore = 0;
         int humanScore = 0;
         for(int i=5;i>=0;i--){
@@ -65,11 +76,11 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("gameResult", "AI");
+                        //Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("gameResult", "HUMAN");
+                        //Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
@@ -88,11 +99,11 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("gameResult", "AI");
+                        //Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("gameResult", "HUMAN");
+                        //Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
@@ -112,11 +123,11 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("gameResult", "AI");
+                        //Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("gameResult", "HUMAN");
+                        //Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
@@ -135,11 +146,11 @@ public class GameAI {
                         else break;
                     }
                     if(aiScore==4){
-                        Log.d("gameResult", "AI");
+                        //Log.d("gameResult", "AI");
                         return 1;
                     }
                     else if (humanScore==4){
-                        Log.d("gameResult", "HUMAN");
+                        //Log.d("gameResult", "HUMAN");
                         return 2;
                     }
                     aiScore = 0;
@@ -158,7 +169,7 @@ public class GameAI {
         return 0;
     }
 
-    public static int calculateScore(int aiScore, int moreMoves){
+    public int calculateScore(int aiScore, int moreMoves){
         int moveScore = 4 - moreMoves;
         if(aiScore==0){
             return 0;
@@ -177,7 +188,7 @@ public class GameAI {
 
     //Evaluate board favorableness for AI
     //Hueristic
-    public static int evaluateBoard(GameEnvironment gameEnvironment){
+    public int evaluateBoard(GameEnvironment gameEnvironment){
 
         int aiScore=1;
         int score=0;
@@ -341,7 +352,7 @@ public class GameAI {
         return score;
     }
 
-    public static int minimax(int depth, int turn, int alpha, int beta){
+    public int minimax(int depth, int turn, int alpha, int beta){
 
         if(beta<=alpha){
             if(turn == 1)
@@ -381,10 +392,11 @@ public class GameAI {
 
                 if(depth==0){
                     System.out.println("Score for location "+j+" = "+currentScore);
-                    if(currentScore > maxScore)nextMoveSpot = j;
+                    if(currentScore > maxScore){
+                        nextMoveSpot = j;
+                    }
                     if(currentScore == Integer.MAX_VALUE/2){
                         gameEnvironment.undoLastMove(j);
-
                         break;
                     }
                 }
@@ -406,28 +418,43 @@ public class GameAI {
         return turn==1?maxScore:minScore;
     }
 
-    public static int getAIMove(){
+    public int getAIMove(){
         nextMoveSpot= -1;
         minimax(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return nextMoveSpot;
     }
 
 
-    /*
-    public void playAgainstAIConsole(){
 
-        gameEnvironment.updateUI();
-        gameEnvironment.dropPiece(3, 1);
-        gameEnvironment.updateUI();
+    public void startGame(){
+
+
+        if (GameFragment.moveFirst == true){
+            letHumanMove();
+            gameEnvironment.updateUI();
+            GameFragment.moveChosen = false;
+
+        }
+        else if (GameFragment.moveFirst == false) {
+            gameEnvironment.updateUI();
+            gameEnvironment.dropPiece(3, 1);
+            gameEnvironment.updateUI();
+        }
+
+
 
         while(true){
+
             letHumanMove();
             gameEnvironment.updateUI();
 
+            System.out.println(getAIMove());
             int gameResult = gameResult(gameEnvironment);
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
+
+            /*
 
             gameEnvironment.dropPiece(getAIMove(), 1);
             gameEnvironment.updateUI();
@@ -435,10 +462,14 @@ public class GameAI {
             if(gameResult==1){System.out.println("AI Wins!");break;}
             else if(gameResult==2){System.out.println("You Win!");break;}
             else if(gameResult==0){System.out.println("Draw!");break;}
+            */
+
         }
 
+
+
     }
-    */
+
 
 
 }
