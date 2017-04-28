@@ -15,8 +15,8 @@
         android:id="@+id/radioGroup_gameplay"
         android:orientation="horizontal"
         android:layout_above="@+id/iv_gameboard"
-        android:layout_centerHorizontal="true"
-        android:paddingLeft="20dp">
+        android:paddingLeft="20dp"
+        android:layout_centerHorizontal="true">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -76,39 +76,7 @@
             android:layout_marginRight="22dp"/>
     </RadioGroup>
 
-    <ImageButton
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/instructions_button"
-        android:layout_marginTop="29dp"
-        android:id="@+id/button_instructions"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/button_play"
-        android:layout_toStartOf="@+id/radioGroup_gameplay" />
-
-    <ImageButton
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/play_button"
-        android:id="@+id/button_play"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/iv_gameboard"
-        android:layout_alignStart="@+id/button_instructions"
-        android:layout_marginTop="21dp" />
-
-    <ImageButton
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:srcCompat="@drawable/restart_button"
-        android:id="@+id/button_settings"
-        android:scaleType="fitXY"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/button_instructions"
-        android:layout_alignStart="@+id/button_instructions"
-        android:layout_marginTop="29dp" />
-
+    <!--
     <ImageView
         app:srcCompat="@drawable/bluearrow_right"
         android:id="@+id/arrowright_three"
@@ -118,8 +86,9 @@
         android:layout_alignTop="@+id/button_settings"
         android:layout_alignStart="@+id/arrowright_two" />
 
+
     <TextView
-        android:text="Restart Game"
+        android:text="Clear Gameboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview_settings"
@@ -128,7 +97,8 @@
         android:fontFamily="monospace"
         android:layout_alignTop="@+id/arrowright_three"
         android:layout_toEndOf="@+id/arrowright_three"
-        android:layout_marginStart="8dp" />
+        android:layout_marginStart="8dp" /
+
 
     <ImageView
         app:srcCompat="@drawable/bluearrow_right"
@@ -139,13 +109,7 @@
         android:layout_alignTop="@+id/button_instructions"
         android:layout_alignStart="@+id/arrowright_one" />
 
-    <ImageView
-        android:id="@+id/iv_gameboard"
-        android:background="@drawable/gameboard"
-        android:layout_width="325dp"
-        android:layout_height="275dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:text="Start/Restart Game"
@@ -180,24 +144,26 @@
         android:layout_alignTop="@+id/arrowright_two"
         android:layout_alignStart="@+id/textview_play" />
 
+     !-->
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/token_shape_empty"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="29dp"
         android:id="@+id/iv_11"
-        android:layout_marginEnd="7dp"
         android:layout_alignBottom="@+id/iv_gameboard"
-        android:layout_toStartOf="@+id/textview_play" />
+        android:layout_toEndOf="@+id/button_play" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_12"
-        android:layout_alignTop="@+id/iv_11"
-        android:layout_toEndOf="@+id/iv_11"
-        android:paddingLeft="3dp" />
+        android:paddingLeft="3dp"
+        android:layout_marginStart="7dp"
+        android:layout_below="@+id/iv_21"
+        android:layout_toEndOf="@+id/iv_11" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -222,17 +188,18 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_15"
+        android:layout_marginStart="6dp"
         android:layout_alignTop="@+id/iv_14"
-        android:layout_alignEnd="@+id/textview_instruction"
-        android:layout_marginEnd="3dp" />
+        android:layout_toEndOf="@+id/button_dropbutton" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iv_16"
+        app:srcCompat="@drawable/token_shape_empty"
         android:layout_alignTop="@+id/iv_15"
-        android:layout_toEndOf="@+id/textview_play"
-        app:srcCompat="@drawable/token_shape_empty" />
+        android:layout_toEndOf="@+id/iv_15"
+        android:layout_marginStart="11dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -501,16 +468,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/token_shape_empty"
-        android:layout_alignBottom="@+id/iv_63"
-        android:layout_alignStart="@+id/iv_54"
-        android:id="@+id/iv_64" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/token_shape_empty"
         android:id="@+id/iv_65"
-        android:layout_alignTop="@+id/iv_64"
+        android:layout_alignTop="@+id/iv_61"
         android:layout_alignStart="@+id/iv_55" />
 
     <ImageView
@@ -529,15 +488,46 @@
         android:layout_alignTop="@+id/iv_66"
         android:layout_alignStart="@+id/iv_57" />
 
+    <ImageView
+        android:id="@+id/iv_gameboard"
+        android:background="@drawable/gameboard"
+        android:layout_width="325dp"
+        android:layout_height="275dp"
+        android:layout_above="@+id/button_dropbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp" />
+
     <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:srcCompat="@drawable/drop_button"
         android:id="@+id/button_dropbutton"
         android:visibility="invisible"
         android:background="@android:color/transparent"
-        android:layout_below="@+id/arrowright_one"
-        android:layout_toEndOf="@+id/iv_16" />
+        android:scaleType="fitXY"
+        android:layout_alignTop="@+id/button_settings"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/play_button"
+        android:id="@+id/button_play"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_alignTop="@+id/button_dropbutton"
+        android:layout_alignStart="@+id/iv_gameboard" />
+
+    <ImageButton
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/restart_button"
+        android:id="@+id/button_settings"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/iv_gameboard" />
 
     <TextView
         android:id="@+id/textview_statistics"
@@ -548,9 +538,17 @@
         android:gravity="bottom"
         android:layout_width="300dp"
         android:fontFamily="casual"
-        android:layout_height="170dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/radioGroup_gameplay"
-        android:layout_marginTop="6dp" />
+        android:layout_above="@+id/radioGroup_gameplay"
+        android:layout_alignStart="@+id/radioGroup_gameplay"
+        android:textSize="13sp"
+        android:layout_height="300dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_64"
+        app:srcCompat="@drawable/token_shape_empty"
+        android:layout_alignTop="@+id/iv_65"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

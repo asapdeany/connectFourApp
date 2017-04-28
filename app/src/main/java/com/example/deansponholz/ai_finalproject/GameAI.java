@@ -1,7 +1,11 @@
 package com.example.deansponholz.ai_finalproject;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.Scanner;
 
@@ -17,7 +21,7 @@ public class GameAI {
     //
     private int nextMoveSpot = -1;
     //Depth max for Minimax
-    private int depthMax = 9;
+    public static int depthMax;
 
 
     //Constructor - creates instance of GameAI
@@ -36,7 +40,6 @@ public class GameAI {
             GameFragment.moveChosen = false;
             //GameFragment.dropButton.setVisibility(View.INVISIBLE);
             //GameFragment.radioGroup.setVisibility(View.INVISIBLE);
-
         }
 
     }
@@ -342,7 +345,8 @@ public class GameAI {
                 if (depth == 0) {
                     System.out.println("Score for location " + j + " = " + currentScore);
 
-                    GameFragment.textview_statistics.append("AI score for location " + j + " = " + currentScore + "\n");
+                    //GameFragment.textview_statistics.append("AI score for location " + j + " = " + currentScore + "\n");
+                    appendColoredText(GameFragment.textview_statistics,("AI score for location " + (j + 1) + " = " + currentScore + "\n"), Color.rgb(210, 105, 30));
                     if (currentScore > maxScore) nextMoveSpot = j;
                     if (currentScore == Integer.MAX_VALUE / 2) {
                         gameEnvironment.undoLastMove(j);
@@ -372,52 +376,14 @@ public class GameAI {
         return nextMoveSpot;
     }
 
+    public static void appendColoredText(TextView tv, String text, int color) {
+        int start = tv.getText().length();
+        tv.append(text);
+        int end = tv.getText().length();
 
-/*
-    public void startGame(){
-
-
-        if (GameFragment.moveFirst == true){
-            letHumanMove();
-            gameEnvironment.updateUI();
-            GameFragment.moveChosen = false;
-
-
-        }
-        else if (GameFragment.moveFirst == false) {
-            gameEnvironment.updateUI();
-            gameEnvironment.dropPiece(3, 1);
-            gameEnvironment.updateUI();
-        }
-
-
-
-
-        while(true){
-
-            letHumanMove();
-            gameEnvironment.updateUI();
-
-            int gameResult = gameResult(gameEnvironment);
-            if(gameResult==1){System.out.println("AI Wins!");break;}
-            else if(gameResult==2){System.out.println("You Win!");break;}
-            else if(gameResult==0){System.out.println("Draw!");break;}
-
-
-
-            gameEnvironment.dropPiece(getAIMove(), 1);
-            gameEnvironment.updateUI();
-            gameResult = gameResult(gameEnvironment);
-            if(gameResult==1){System.out.println("AI Wins!");break;}
-            else if(gameResult==2){System.out.println("You Win!");break;}
-            else if(gameResult==0){System.out.println("Draw!");break;}
-            }
-        }
-*/
-
-
-
-
+        Spannable spannableText = (Spannable) tv.getText();
+        spannableText.setSpan(new ForegroundColorSpan(color), start, end, 0);
+    }
 
 
 }

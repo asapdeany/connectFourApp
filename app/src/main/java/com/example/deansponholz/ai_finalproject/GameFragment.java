@@ -39,7 +39,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     public static RadioGroup radioGroup;
     private System_UI_Manager system_ui_manager;
     static int moveFlag = 0;
-    static boolean moveFirst, gameStarted, moveChosen;
+    static boolean moveFirst, gameOver, moveChosen;
 
 
     private ImageButton instructionsButton, playButton, restartButton;
@@ -49,7 +49,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
     private TextView textview_play, textview_settings, textview_instruction;
     public static TextView textview_statistics;
 
-    private AlertDialog alertRestart, alertFirstMove;
+    private AlertDialog alertRestart, alertFirstMove, alertDifficulty;
     private int instruction_flag = 1;
 
 
@@ -64,6 +64,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     private GameEnvironment gameEnvironment;
     private GameAI gameAI;
+    private int gameResult;
 
     String statistics_moves = new String();
 
@@ -79,16 +80,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup_gameplay);
         radioGroup.setOnCheckedChangeListener(this);
 
-        //arrows
-        arrowRight_one = (ImageView) root.findViewById(R.id.arrowright_one);
-        arrowRight_two = (ImageView) root.findViewById(R.id.arrowright_two);
-        arrowRight_three = (ImageView) root.findViewById(R.id.arrowright_three);
-
-
-        //textViews
-        textview_play = (TextView) root.findViewById(R.id.textview_play);
-        textview_instruction = (TextView) root.findViewById(R.id.textview_instruction);
-        textview_settings = (TextView) root.findViewById(R.id.textview_settings);
+        //textview
         textview_statistics = (TextView) root.findViewById(R.id.textview_statistics);
         textview_statistics.setMovementMethod(new ScrollingMovementMethod());
 
@@ -104,23 +96,24 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         alertFirstMove = builderFirstMove.create();
         alertFirstMove.setCanceledOnTouchOutside(false);
 
-        //Buttons
-        instructionsButton = (ImageButton) root.findViewById(R.id.button_instructions);
-        instructionButtonListener(instructionsButton);
+        AlertDialog.Builder builderDifficulty = alertFunctionDifficulty(root);
+        alertDifficulty = builderDifficulty.create();
+        alertDifficulty.setCanceledOnTouchOutside(false);
+
+
         playButton = (ImageButton) root.findViewById(R.id.button_play);
         playButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                alertFirstMove.show();
+                alertDifficulty.show();
             }
         });
+
         restartButton = (ImageButton) root.findViewById(R.id.button_settings);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                //ToDo - clear gameboard
 
                 alertRestart.show();
             }
@@ -133,61 +126,88 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             public void onClick(View view) {
 
 
-                gameEnvironment.dropPiece(moveFlag, 2);
-                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
-                appendColoredText(textview_statistics, ("HUMAN Move at Column: " + moveFlag + "\n" ), Color.rgb(255, 0, 255));
-                //textview_statistics.append((("HUMAN Move at Column: ") + moveFlag) + "\n" );
-                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
-                gameEnvironment.updateUI();
+                dropButton.setClickable(false);
+                int humanMove = moveFlag;
+                if (gameEnvironment.isMoveLegal(humanMove) == true){
 
-                int gameResult = gameAI.gameResult(gameEnvironment);
+                    if (gameOver == false) {
 
-                if(gameResult==1){
-                    System.out.println("AI Wins!");
-                    //GAMEOVER
+
+                        gameEnvironment.dropPiece(humanMove, 2);
+                        appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                        appendColoredText(textview_statistics, ("HUMAN Move at Column: " + (humanMove + 1) + "\n"), Color.rgb(255, 0, 255));
+                        appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                        gameEnvironment.updateUI();
+                        gameResult = gameAI.gameResult(gameEnvironment);
+
+                        if (gameResult == 1) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("---------------------AI WINS!!!-------------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                            //GAMEOVER
+                        } else if (gameResult == 2) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("----------------HUMAN WINS!!!-----------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                        } else if (gameResult == 0) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("--------------------GAME DRAW!!!--------------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                        }
+                    }
+
+
+                    //AI RESPONSE
+                    if (gameOver == false) {
+                        //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(210, 105, 30));
+                        appendColoredText(textview_statistics, ("THINKING..." + "\n"), Color.rgb(210, 105, 30));
+                        //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(210, 105, 30));
+                        int move = gameAI.getAIMove();
+                        //Log.d("MOVE", Integer.toString(move));
+                        gameEnvironment.dropPiece(move, 1);
+                        appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                        appendColoredText(textview_statistics, (("AI Move at Column: ") + (move + 1) + "\n"), Color.rgb(255, 0, 255));
+                        appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+
+
+                        gameEnvironment.updateUI();
+                        gameResult = gameAI.gameResult(gameEnvironment);
+
+                        if (gameResult == 1) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("---------------------AI WINS!!!-------------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                            //GAMEOVER
+                        } else if (gameResult == 2) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("----------------HUMAN WINS!!!-----------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                        } else if (gameResult == 0) {
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            appendColoredText(textview_statistics, ("--------------------GAME DRAW!!!--------------------" + "\n"), Color.rgb(255, 0, 0));
+                            //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
+                            dropButton.setVisibility(View.INVISIBLE);
+                            gameOver = true;
+                        }
+                    }
+
                 }
-                else if(gameResult==2){
-                    System.out.println("You Win!");
-                }
-                else if(gameResult==0){
-                    System.out.println("Draw!");
+                else {
+                    Toast.makeText(getActivity(), "ILLEGAL MOVE - TRY AGAIN",
+                            Toast.LENGTH_SHORT).show();
                 }
 
-                //LOCKUI
-
-                //AI RESPONSE
-                int move = gameAI.getAIMove();
-                gameEnvironment.dropPiece(move, 1);
-                textview_statistics.append("--------------------------" + "\n");
-                textview_statistics.append((("AI Move at Column: ") + move) + "\n" );
-                gameEnvironment.updateUI();
-
-                gameResult = gameAI.gameResult(gameEnvironment);
-
-                if(gameResult==1){
-                    System.out.println("AI Wins!");
-                    //GAMEOVER
-                }
-                else if(gameResult==2){
-                    System.out.println("You Win!");
-                }
-                else if(gameResult==0){
-                    System.out.println("Draw!");
-                }
-
-
-                /*
-
-                moveChosen = true;
-                gameAI.letHumanMove(moveFlag);
-                gameEnvironment.updateUI();
-                textview_statistics.append((("Human Move at Column: ") + moveFlag) + "\n" );
-
-                int move = gameAI.getAIMove();
-                Log.d("MOVE", Integer.toString(move));
-                gameEnvironment.dropPiece(move, 1);
-                //gameEnvironment.updateUI();
-                */
+                dropButton.setClickable(true);
             }
         });
 
@@ -334,60 +354,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
     }
 
-    public void instructionButtonListener(ImageButton imageButton){
-
-        final Animation myFadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (instruction_flag == 0){
-
-                    arrowRight_one.clearAnimation();
-                    arrowRight_one.setVisibility(View.INVISIBLE);
-
-                    arrowRight_two.clearAnimation();
-                    arrowRight_two.setVisibility(View.INVISIBLE);
-
-                    arrowRight_three.clearAnimation();
-                    arrowRight_three.setVisibility(View.INVISIBLE);
-
-                    textview_play.clearAnimation();
-                    textview_play.setVisibility(View.INVISIBLE);
-
-                    textview_settings.clearAnimation();
-                    textview_settings.setVisibility(View.INVISIBLE);
-
-                    textview_instruction.clearAnimation();
-                    textview_instruction.setVisibility(View.INVISIBLE);
-
-                    instruction_flag = 1;
-                }
-                else if (instruction_flag == 1){
-
-                    arrowRight_one.startAnimation(myFadeInAnimation);
-                    arrowRight_one.setVisibility(View.VISIBLE);
-
-                    arrowRight_two.startAnimation(myFadeInAnimation);
-                    arrowRight_two.setVisibility(View.VISIBLE);
-
-                    arrowRight_three.startAnimation(myFadeInAnimation);
-                    arrowRight_three.setVisibility(View.VISIBLE);
-
-                    textview_play.startAnimation(myFadeInAnimation);
-                    textview_play.setVisibility(View.VISIBLE);
-
-                    textview_settings.startAnimation(myFadeInAnimation);
-                    textview_settings.setVisibility(View.VISIBLE);
-
-                    textview_instruction.startAnimation(myFadeInAnimation);
-                    textview_instruction.setVisibility(View.VISIBLE);
-
-                    instruction_flag = 0;
-                }
-            }
-        });
-    }
 
     public AlertDialog.Builder alertFunctionRestart(View root) {
 
@@ -401,11 +367,20 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
 
-                gameEnvironment.clearBoard();
+                try{
+                    gameEnvironment.clearBoard();
+                }
+                catch (NullPointerException e){
+                    Toast.makeText(getActivity(), "Game Has Not Started",
+                            Toast.LENGTH_LONG).show();
+                }
                 textview_statistics.setText("");
+                dropButton.setVisibility(View.INVISIBLE);
                 playButton.setClickable(true);
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
+                gameOver = false;
+
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -445,8 +420,9 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                 dialog.dismiss();
                 system_ui_manager.hideStatusBar(getActivity());
 
-                gameEnvironment = new GameEnvironment();
-                gameAI = new GameAI(gameEnvironment);
+                gameOver = false;
+                //gameEnvironment = new GameEnvironment();
+                //gameAI = new GameAI(gameEnvironment);
                 //gameAI.startGame();
 
 
@@ -475,11 +451,13 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
 
                 //start Game
-                gameEnvironment = new GameEnvironment();
-                gameAI = new GameAI(gameEnvironment);
+                gameOver = false;
+
                 gameEnvironment.dropPiece(3, 1);
                 gameEnvironment.updateUI();
-                textview_statistics.append((("AI Move at Column: ") + 3) + "\n" );
+                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
+                appendColoredText(textview_statistics, (("AI Move at Column: ") + (3 + 1) + "\n"), Color.rgb(255, 0, 255));
+                appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
 
 
             }
@@ -487,6 +465,51 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         return builder;
 
+    }
+
+    //This is where the game begins
+    public AlertDialog.Builder alertFunctionDifficulty(final View root){
+
+        final CharSequence[] items = {" Easy (Max Depth = 5) "," Hard (Max Depth = 9) "};
+        //arraylist to keep the selected items
+        final ArrayList seletedItems=new ArrayList();
+
+
+        gameEnvironment = new GameEnvironment();
+        gameAI = new GameAI(gameEnvironment);
+        gameAI.depthMax = 5;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+        builder.setTitle("Select The Difficulty Level");
+        builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Log.d("Difficulty option", Integer.toString(which));
+            if (which == 0){
+                gameAI.depthMax = 5;
+            }
+            else if (which == 1){
+                gameAI.depthMax = 9;
+            }
+        }
+        });
+         //Set the action buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+             //  Your code when user clicked on OK
+             //  You can write the code  to save the selected item here
+                alertFirstMove.show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int id) {
+            //Your code when user clicked on Cancel
+            system_ui_manager.hideStatusBar(getActivity());
+            }
+        });
+        return builder;
     }
 
     public static void appendColoredText(TextView tv, String text, int color) {
