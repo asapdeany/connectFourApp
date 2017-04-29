@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
@@ -28,6 +29,7 @@ import java.lang.reflect.Array;
 import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * Created by deansponholz on 4/8/17.
@@ -70,8 +72,8 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_gameplay, container, false);
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View root = inflater.inflate(R.layout.fragment_gameplay, container, false);
 
         //hide status bar
         system_ui_manager = new System_UI_Manager(getActivity());
@@ -100,7 +102,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         alertDifficulty = builderDifficulty.create();
         alertDifficulty.setCanceledOnTouchOutside(false);
 
-
         playButton = (ImageButton) root.findViewById(R.id.button_play);
         playButton.setOnClickListener(new View.OnClickListener() {
 
@@ -120,10 +121,12 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         });
 
 
+
         dropButton = (ImageButton) root.findViewById(R.id.button_dropbutton);
         dropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
 
                 dropButton.setClickable(false);
@@ -161,8 +164,6 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                             gameOver = true;
                         }
                     }
-
-
                     //AI RESPONSE
                     if (gameOver == false) {
                         //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(210, 105, 30));
@@ -207,9 +208,13 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                             Toast.LENGTH_SHORT).show();
                 }
 
+
+
                 dropButton.setClickable(true);
+
             }
         });
+
 
         return root;
     }
