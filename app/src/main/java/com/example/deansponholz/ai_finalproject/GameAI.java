@@ -3,11 +3,7 @@ package com.example.deansponholz.ai_finalproject;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-
-import java.util.Scanner;
 
 /**
  * Created by deansponholz on 4/8/17.
@@ -15,11 +11,12 @@ import java.util.Scanner;
 
 public class GameAI {
 
-    //Local GameVironment instance
+    //Local GameEnvironment instance
     private GameEnvironment gameEnvironment;
 
-    //
-    private int nextMoveSpot = -1;
+    //variable for the aiMoveLocation
+    private int finalAIMove = -1;
+
     //Depth max for Minimax
     public static int depthMax;
 
@@ -31,349 +28,468 @@ public class GameAI {
 
     }
 
-    public void letHumanMove(){
 
-        int move = GameFragment.moveFlag;
-
-        if (GameFragment.moveChosen == true) {
-            gameEnvironment.dropPiece(move, (byte) 2);
-            GameFragment.moveChosen = false;
-            //GameFragment.dropButton.setVisibility(View.INVISIBLE);
-            //GameFragment.radioGroup.setVisibility(View.INVISIBLE);
-        }
-
-    }
-
-    //Game Result -
     //Investigate a game state and see whether it terminal
     //Returns Either 1, 2, 0
-    public int gameResult(GameEnvironment gameEnvironment){
+    public int evaluateState(GameEnvironment gameEnvironment){
 
+        int humanCount = 0;
+        int aiCount = 0;
 
-        int aiScore = 0;
-        int humanScore = 0;
-        for(int i=5;i>=0;i--){
-            for(int j=0;j<=6;j++){
-                if(gameEnvironment.gameGrid[i][j]==0){
+        for(int i=5; i>=0; i--){
+
+            for(int j=0; j<=6; j++){
+
+                if(gameEnvironment.gameGrid[i][j] == 0){
                     continue;
                 }
-                //Checking cells to the right of current location
+
+
+                //Loop through all cells right of current location
                 if(j<=3){
-                    for(int k=0;k<4;k++){
-                        if(gameEnvironment.gameGrid[i][j+k]==1){
-                            aiScore++;
+
+                    for(int k=0; k<4; k++){
+
+                        if(gameEnvironment.gameGrid[i][j+k] == 1){
+                            aiCount++;
                         }
-                        else if(gameEnvironment.gameGrid[i][j+k]==2){
-                            humanScore++;
+                        else if(gameEnvironment.gameGrid[i][j+k] == 2){
+                            humanCount++;
                         }
-                        else break;
+                        else{
+                            break;
+                        }
                     }
-                    if(aiScore==4){
-                        //Log.d("gameResult", "AI");
+
+                    if(aiCount == 4){
+                        //Log.d("evaluateState", "AI");
+                        //Ai win
                         return 1;
                     }
-                    else if (humanScore==4){
-                        //Log.d("gameResult", "HUMAN");
+                    else if (humanCount == 4){
+                        //Log.d("evaluateState", "HUMAN");
+                        //Human Win
                         return 2;
                     }
-                    aiScore = 0;
-                    humanScore = 0;
+
+                    aiCount = 0;
+                    humanCount = 0;
                 }
 
-                //Checking cells up of current location
+
+                //Loop through all cells above of current location
                 if(i>=3){
-                    for(int k=0;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j]==1){
-                            aiScore++;
+
+                    for(int k=0; k<4; k++){
+
+                        if(gameEnvironment.gameGrid[i-k][j] == 1){
+                            aiCount++;
                         }
-                        else if(gameEnvironment.gameGrid[i-k][j]==2){
-                            humanScore++;
+                        else if(gameEnvironment.gameGrid[i-k][j] == 2){
+                            humanCount++;
                         }
-                        else break;
+                        else{
+                            break;
+                        }
                     }
-                    if(aiScore==4){
-                        //Log.d("gameResult", "AI");
+                    if(aiCount == 4){
+                        //Log.d("evaluateState", "AI");
+                        //human win
                         return 1;
                     }
-                    else if (humanScore==4){
-                        //Log.d("gameResult", "HUMAN");
+                    else if (humanCount == 4){
+                        //Log.d("evaluateState", "HUMAN");
+                        //ai win
                         return 2;
                     }
-                    aiScore = 0;
-                    humanScore = 0;
+
+                    aiCount = 0;
+                    humanCount = 0;
                 }
 
-                //Checking diagonal up-right of current location
+                //Loop through all cells diagonally up-right of current location
                 if(j<=3 && i>= 3){
-                    for(int k=0;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j+k]==1){
-                            aiScore++;
-                        }
-                        else if(gameEnvironment.gameGrid[i-k][j+k]==2){
 
-                            humanScore++;
+                    for(int k=0; k<4; k++){
+
+                        if(gameEnvironment.gameGrid[i-k][j+k] == 1){
+                            aiCount++;
                         }
-                        else break;
+                        else if(gameEnvironment.gameGrid[i-k][j+k] == 2){
+                            humanCount++;
+                        }
+                        else{
+                            break;
+                        }
                     }
-                    if(aiScore==4){
-                        //Log.d("gameResult", "AI");
+
+                    if(aiCount == 4){
+                        //Log.d("evaluateState", "AI");
                         return 1;
                     }
-                    else if (humanScore==4){
-                        //Log.d("gameResult", "HUMAN");
+
+                    else if (humanCount == 4){
+                        //Log.d("evaluateState", "HUMAN");
                         return 2;
                     }
-                    aiScore = 0;
-                    humanScore = 0;
+                    aiCount = 0;
+                    humanCount = 0;
                 }
 
-                //Checking diagonal up-left of current location
+                //Loop through all cells diagonally up-left of current location
                 if(j>=3 && i>=3){
-                    for(int k=0;k<4;++k){
-                        if(gameEnvironment.gameGrid[i-k][j-k]==1){
-                            aiScore++;
+
+                    for(int k=0; k<4; k++){
+
+                        if(gameEnvironment.gameGrid[i-k][j-k] == 1){
+                            aiCount++;
                         }
-                        else if(gameEnvironment.gameGrid[i-k][j-k]==2){
-                            humanScore++;
+                        else if(gameEnvironment.gameGrid[i-k][j-k] == 2){
+                            humanCount++;
                         }
                         else break;
                     }
-                    if(aiScore==4){
-                        //Log.d("gameResult", "AI");
+                    if(aiCount == 4){
+                        //Log.d("evaluateState", "AI");
                         return 1;
                     }
-                    else if (humanScore==4){
-                        //Log.d("gameResult", "HUMAN");
+                    else if (humanCount == 4){
+                        //Log.d("evaluateState", "HUMAN");
                         return 2;
                     }
-                    aiScore = 0;
-                    humanScore = 0;
+                    aiCount = 0;
+                    humanCount = 0;
                 }
             }
         }
 
-        for(int j=0;j<7;++j){
-            //Game has not ended yet
-            if(gameEnvironment.gameGrid[0][j]==0){
+        for(int j = 0; j<7; j++){
+
+            //state is not terminal
+            if(gameEnvironment.gameGrid[0][j] == 0){
                 return -1;
+
             }
         }
-        //Game draw!
+
+
+        //tie game
         return 0;
     }
 
-    public int calculateScore(int aiScore, int moreMoves){
-        int moveScore = 4 - moreMoves;
-        if(aiScore==0){
+    public int determineScore(int aiScore, int moreMoves){
+
+        int scoreForState = 4 - moreMoves;
+
+        if(aiScore == 0){
             return 0;
         }
-        else if(aiScore==1){
-            return 1*moveScore;
+
+        else if(aiScore == 1){
+            return scoreForState;
         }
-        else if(aiScore==2){
-            return 10*moveScore;
+
+        else if(aiScore == 2){
+            return 10*scoreForState;
         }
-        else if(aiScore==3){
-            return 100*moveScore;
+
+        else if(aiScore == 3){
+            return 100*scoreForState;
         }
-        else return 1000;
+
+        else{
+            return 1000;
+        }
     }
 
     //Evaluate board favorableness for AI
-    public int evaluateBoard(GameEnvironment gameEnvironment) {
+    public int heuristicFunction(GameEnvironment gameEnvironment) {
 
-        int aiScore = 1;
-        int score = 0;
-        int blanks = 0;
-        int k = 0, moreMoves = 0;
-        for (int i = 5; i >= 0; --i) {
-            for (int j = 0; j <= 6; ++j) {
+        int blankCount = 0;
+        int stateScore = 0;
+        int movesLeft = 0;
+        int aiInARow = 1;
+        int k = 0;
 
-                if (gameEnvironment.gameGrid[i][j] == 0 || gameEnvironment.gameGrid[i][j] == 2) continue;
+
+        for (int i = 5; i >= 0; i--) {
+
+            for (int j = 0; j <= 6; j++) {
+
+                if (gameEnvironment.gameGrid[i][j] == 0 || gameEnvironment.gameGrid[i][j] == 2){
+                    continue;
+                }
 
                 if (j <= 3) {
-                    for (k = 1; k < 4; ++k) {
-                        if (gameEnvironment.gameGrid[i][j + k] == 1) aiScore++;
+                    for (k = 1; k < 4; k++) {
+                        if (gameEnvironment.gameGrid[i][j + k] == 1){
+                            aiInARow++;
+
+                        }
                         else if (gameEnvironment.gameGrid[i][j + k] == 2) {
-                            aiScore = 0;
-                            blanks = 0;
+
+                            aiInARow = 0;
+                            blankCount = 0;
                             break;
-                        } else blanks++;
+
+                        } else {
+                            blankCount++;
+                        }
                     }
 
-                    moreMoves = 0;
-                    if (blanks > 0)
-                        for (int c = 1; c < 4; ++c) {
+                    movesLeft = 0;
+                    if (blankCount > 0)
+                        for (int c = 1; c < 4; c++) {
                             int column = j + c;
                             for (int m = i; m <= 5; m++) {
-                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
-                                else break;
+                                if (gameEnvironment.gameGrid[m][column] == 0) movesLeft++;
+                                else{
+                                    break;
+                                }
                             }
                         }
 
-                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
-                    aiScore = 1;
-                    blanks = 0;
+                    if (movesLeft != 0){
+                        stateScore += determineScore(aiInARow, movesLeft);
+                    }
+                    aiInARow = 1;
+                    blankCount = 0;
                 }
 
                 if (i >= 3) {
-                    for (k = 1; k < 4; ++k) {
-                        if (gameEnvironment.gameGrid[i - k][j] == 1) aiScore++;
+                    for (k = 1; k < 4; k++) {
+                        if (gameEnvironment.gameGrid[i - k][j] == 1){
+                            aiInARow++;
+                        }
                         else if (gameEnvironment.gameGrid[i - k][j] == 2) {
-                            aiScore = 0;
+                            aiInARow = 0;
                             break;
                         }
                     }
-                    moreMoves = 0;
+                    movesLeft = 0;
 
-                    if (aiScore > 0) {
+                    if (aiInARow > 0) {
+
                         int column = j;
                         for (int m = i - k + 1; m <= i - 1; m++) {
-                            if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
-                            else break;
+                            if (gameEnvironment.gameGrid[m][column] == 0) movesLeft++;
+                            else{
+                                break;
+                            }
                         }
                     }
-                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
-                    aiScore = 1;
-                    blanks = 0;
+                    if (movesLeft != 0){
+                        stateScore += determineScore(aiInARow, movesLeft);
+                    }
+                    aiInARow = 1;
+                    blankCount = 0;
                 }
 
                 if (j >= 3) {
-                    for (k = 1; k < 4; ++k) {
-                        if (gameEnvironment.gameGrid[i][j - k] == 1) aiScore++;
+                    for (k = 1; k < 4; k++) {
+
+                        if (gameEnvironment.gameGrid[i][j - k] == 1){
+                            aiInARow++;
+                        }
                         else if (gameEnvironment.gameGrid[i][j - k] == 2) {
-                            aiScore = 0;
-                            blanks = 0;
+                            aiInARow = 0;
+                            blankCount = 0;
                             break;
-                        } else blanks++;
+                        } else{
+                            blankCount++;
+                        }
                     }
-                    moreMoves = 0;
-                    if (blanks > 0)
-                        for (int c = 1; c < 4; ++c) {
+                    movesLeft = 0;
+                    if (blankCount > 0)
+                        for (int c = 1; c < 4; c++) {
                             int column = j - c;
                             for (int m = i; m <= 5; m++) {
-                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
-                                else break;
+                                if (gameEnvironment.gameGrid[m][column] == 0) movesLeft++;
+                                else{
+                                    break;
+                                }
                             }
                         }
 
-                    if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
-                    aiScore = 1;
-                    blanks = 0;
+                    if (movesLeft != 0){
+                        stateScore += determineScore(aiInARow, movesLeft);
+                    }
+                    aiInARow = 1;
+                    blankCount = 0;
                 }
 
                 if (j <= 3 && i >= 3) {
-                    for (k = 1; k < 4; ++k) {
-                        if (gameEnvironment.gameGrid[i - k][j + k] == 1) aiScore++;
+                    for (k = 1; k < 4; k++) {
+                        if (gameEnvironment.gameGrid[i - k][j + k] == 1){
+                            aiInARow++;
+                        }
                         else if (gameEnvironment.gameGrid[i - k][j + k] == 2) {
-                            aiScore = 0;
-                            blanks = 0;
+                            aiInARow = 0;
+                            blankCount = 0;
                             break;
-                        } else blanks++;
+                        } else{
+                            blankCount++;
+                        }
                     }
-                    moreMoves = 0;
-                    if (blanks > 0) {
-                        for (int c = 1; c < 4; ++c) {
-                            int column = j + c, row = i - c;
+                    movesLeft = 0;
+                    if (blankCount > 0) {
+
+                        for (int c = 1; c < 4; c++) {
+
+                            int row = i - c;
+                            int column = j + c;
+
                             for (int m = row; m <= 5; ++m) {
-                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
-                                else if (gameEnvironment.gameGrid[m][column] == 1) ;
-                                else break;
+                                if (gameEnvironment.gameGrid[m][column] == 0){
+                                    movesLeft++;
+                                }
+                                else if (gameEnvironment.gameGrid[m][column] == 1);
+                                else{
+                                    break;
+                                }
                             }
                         }
-                        if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
-                        aiScore = 1;
-                        blanks = 0;
+                        if (movesLeft != 0){
+                            stateScore += determineScore(aiInARow, movesLeft);
+                        }
+                        aiInARow = 1;
+                        blankCount = 0;
                     }
                 }
 
                 if (i >= 3 && j >= 3) {
-                    for (k = 1; k < 4; ++k) {
-                        if (gameEnvironment.gameGrid[i - k][j - k] == 1) aiScore++;
+
+                    for (k = 1; k < 4; k++) {
+                        if (gameEnvironment.gameGrid[i - k][j - k] == 1){
+
+                            aiInARow++;
+                        }
                         else if (gameEnvironment.gameGrid[i - k][j - k] == 2) {
-                            aiScore = 0;
-                            blanks = 0;
+
+                            aiInARow = 0;
+                            blankCount = 0;
                             break;
-                        } else blanks++;
+                        } 
+                        else{
+                            blankCount++;
+                        }
                     }
-                    moreMoves = 0;
-                    if (blanks > 0) {
-                        for (int c = 1; c < 4; ++c) {
-                            int column = j - c, row = i - c;
+                    movesLeft = 0;
+                    if (blankCount > 0) {
+                        for (int c = 1; c < 4; c++) {
+                            int column = j - c;
+                            int row = i - c;
                             for (int m = row; m <= 5; ++m) {
-                                if (gameEnvironment.gameGrid[m][column] == 0) moreMoves++;
-                                else if (gameEnvironment.gameGrid[m][column] == 1) ;
-                                else break;
+                                if (gameEnvironment.gameGrid[m][column] == 0) movesLeft++;
+                                else if (gameEnvironment.gameGrid[m][column] == 1);
+                                else{
+                                    break;
+                                }
                             }
                         }
-                        if (moreMoves != 0) score += calculateScore(aiScore, moreMoves);
-                        aiScore = 1;
-                        blanks = 0;
+                        if (movesLeft != 0){
+                            stateScore += determineScore(aiInARow, movesLeft);
+                        }
+                        aiInARow = 1;
+                        blankCount = 0;
                     }
                 }
             }
         }
-        return score;
+        return stateScore;
     }
 
-    public int minimax(int depth, int turn, int alpha, int beta) {
+    public int minimaxAlgorithm(int depthMax, int turn, int alpha, int beta) {
+
+        int maxScore = Integer.MIN_VALUE;
+        int minScore = Integer.MAX_VALUE;
+        int gameResult = evaluateState(gameEnvironment);
 
         if (beta <= alpha) {
-            if (turn == 1) return Integer.MAX_VALUE;
-            else return Integer.MIN_VALUE;
+            if (turn == 1){
+                //AI top score
+                return Integer.MAX_VALUE;
+            }
+            else{
+                //Human top score
+                return Integer.MIN_VALUE;
+            }
         }
-        int gameResult = gameResult(gameEnvironment);
 
-        if (gameResult == 1) return Integer.MAX_VALUE / 2;
-        else if (gameResult == 2) return Integer.MIN_VALUE / 2;
-        else if (gameResult == 0) return 0;
 
-        if (depth == depthMax) return evaluateBoard(gameEnvironment);
 
-        int maxScore = Integer.MIN_VALUE, minScore = Integer.MAX_VALUE;
 
-        for (int j = 0; j <= 6; ++j) {
+        if (gameResult == 1){
 
-            int currentScore = 0;
+            return Integer.MAX_VALUE / 2;
 
-            if (!gameEnvironment.isMoveLegal(j)) continue;
+        }
+        else if (gameResult == 2){
+
+            return Integer.MIN_VALUE / 2;
+
+        }
+        else if (gameResult == 0){
+
+            return 0;
+
+        }
+
+
+        if (depthMax == GameAI.depthMax){
+
+            return heuristicFunction(gameEnvironment);
+        }
+
+
+
+        for (int j = 0; j <= 6; j++) {
+
+            int scoreCount = 0;
+
+            if (!gameEnvironment.isMoveLegal(j)){
+                continue;
+            }
 
             if (turn == 1) {
                 gameEnvironment.dropPiece(j, 1);
-                currentScore = minimax(depth + 1, 2, alpha, beta);
+                scoreCount = minimaxAlgorithm(depthMax + 1, 2, alpha, beta);
 
-                if (depth == 0) {
-                    System.out.println("Score for location " + j + " = " + currentScore);
+                if (depthMax == 0) {
 
-                    //GameFragment.textview_statistics.append("AI score for location " + j + " = " + currentScore + "\n");
-                    appendColoredText(GameFragment.textview_statistics,("AI score for location " + (j + 1) + " = " + currentScore + "\n"), Color.rgb(210, 105, 30));
-                    if (currentScore > maxScore) nextMoveSpot = j;
-                    if (currentScore == Integer.MAX_VALUE / 2) {
+                    appendColoredText(GameFragment.textview_statistics,("AI score for location " + (j + 1) + " = " + scoreCount + "\n"), Color.rgb(210, 105, 30));
+                    if (scoreCount > maxScore) finalAIMove = j;
+                    if (scoreCount == Integer.MAX_VALUE / 2) {
                         gameEnvironment.undoLastMove(j);
                         break;
                     }
                 }
 
-                maxScore = Math.max(currentScore, maxScore);
+                maxScore = Math.max(scoreCount, maxScore);
+                alpha = Math.max(scoreCount, alpha);
 
-                alpha = Math.max(currentScore, alpha);
             } else if (turn == 2) {
                 gameEnvironment.dropPiece(j, 2);
-                currentScore = minimax(depth + 1, 1, alpha, beta);
-                minScore = Math.min(currentScore, minScore);
+                scoreCount = minimaxAlgorithm(depthMax + 1, 1, alpha, beta);
+                minScore = Math.min(scoreCount, minScore);
 
-                beta = Math.min(currentScore, beta);
+                beta = Math.min(scoreCount, beta);
             }
             gameEnvironment.undoLastMove(j);
-            if (currentScore == Integer.MAX_VALUE || currentScore == Integer.MIN_VALUE) break;
+
+            if (scoreCount == Integer.MAX_VALUE || scoreCount == Integer.MIN_VALUE){
+                break;
+            }
         }
         return turn == 1 ? maxScore : minScore;
     }
 
-    public int getAIMove(){
-        nextMoveSpot= -1;
-        minimax(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        return nextMoveSpot;
+    public int retrieveAIMoveLocation(){
+
+        finalAIMove = -1;
+        minimaxAlgorithm(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return finalAIMove;
+
     }
 
     public static void appendColoredText(TextView tv, String text, int color) {

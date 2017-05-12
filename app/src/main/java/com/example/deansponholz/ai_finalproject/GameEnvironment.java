@@ -35,14 +35,17 @@ public class GameEnvironment {
     }
 
 
+    //check if a game is
     public boolean isMoveLegal(int column){
         return gameGrid[0][column]==0;
     }
 
+
+    //places a piece on the board
     public boolean dropPiece(int column, int player){
 
         if (isMoveLegal(column) == false){
-            Log.d("dropPiece", "Move Not Allowed!");
+            //Log.d("dropPiece", "Move Not Allowed!");
             return false;
         }
 

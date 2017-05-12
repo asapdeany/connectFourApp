@@ -2,11 +2,8 @@ package com.example.deansponholz.ai_finalproject;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.Service;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
@@ -15,21 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.security.Provider;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * Created by deansponholz on 4/8/17.
@@ -141,7 +130,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                         appendColoredText(textview_statistics, ("HUMAN Move at Column: " + (humanMove + 1) + "\n"), Color.rgb(255, 0, 255));
                         appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
                         gameEnvironment.updateUI();
-                        gameResult = gameAI.gameResult(gameEnvironment);
+                        gameResult = gameAI.evaluateState(gameEnvironment);
 
                         if (gameResult == 1) {
                             //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
@@ -169,7 +158,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
                         //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(210, 105, 30));
                         appendColoredText(textview_statistics, ("THINKING..." + "\n"), Color.rgb(210, 105, 30));
                         //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(210, 105, 30));
-                        int move = gameAI.getAIMove();
+                        int move = gameAI.retrieveAIMoveLocation();
                         //Log.d("MOVE", Integer.toString(move));
                         gameEnvironment.dropPiece(move, 1);
                         appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 255));
@@ -178,7 +167,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
 
 
                         gameEnvironment.updateUI();
-                        gameResult = gameAI.gameResult(gameEnvironment);
+                        gameResult = gameAI.evaluateState(gameEnvironment);
 
                         if (gameResult == 1) {
                             //appendColoredText(textview_statistics, ("----------------------------------------------------" + "\n"), Color.rgb(255, 0, 0));
@@ -478,6 +467,7 @@ public class GameFragment extends Fragment implements RadioGroup.OnCheckedChange
         final CharSequence[] items = {" Easy (Max Depth = 5) "," Hard (Max Depth = 9) "};
         //arraylist to keep the selected items
         final ArrayList seletedItems=new ArrayList();
+        //
 
 
         gameEnvironment = new GameEnvironment();
